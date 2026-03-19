@@ -22,8 +22,8 @@
     --font-body: 'Comic Neue', cursive;
     --font-ui: 'Fredoka', sans-serif;
 
-    --card-bg: #F7F9F2;
-    /* Off White/Cream */
+    --card-bg: rgba(255, 255, 255, 0.2);
+    /* Much more transparent */
 }
 
 * {
@@ -36,20 +36,29 @@
 body {
     overflow-x: hidden;
     background-color: var(--bg-color);
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: -60px;
+    left: -60px;
+    width: calc(100vw + 120px);
+    height: calc(100vh + 120px);
     background-image: radial-gradient(#000 1px, transparent 1px);
     background-size: 30px 30px;
-    background-repeat: repeat;
-    background-attachment: fixed;
-    animation: bg-scroll 3s linear infinite;
+    z-index: -1;
+    animation: bg-scroll 4s linear infinite;
+    pointer-events: none;
 }
 
 @keyframes bg-scroll {
     0% {
-        background-position: 0 0;
+        transform: translate3d(0, 0, 0);
     }
 
     100% {
-        background-position: 30px 30px;
+        transform: translate3d(30px, 30px, 0);
     }
 }
 
@@ -74,7 +83,7 @@ a {
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 2rem;
-    background-color: var(--card-bg);
+    background-color: #F7F9F2;
     border-bottom: var(--border-width) solid var(--border-color);
     position: sticky;
     top: 0;
@@ -120,6 +129,7 @@ a {
 .btn-nav:hover {
     transform: translate(3px, 3px);
     box-shadow: var(--shadow-active);
+    color: #000 !important;
 }
 
 /* --- Hero Section --- */
@@ -135,6 +145,8 @@ a {
 
 .hero-text-box {
     background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     padding: 3rem;
     border: var(--border-width) solid var(--border-color);
     box-shadow: var(--shadow);
@@ -214,6 +226,8 @@ a {
     box-shadow: 10px 10px 0px 0px #000;
     transition: transform 0.3s;
     background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     padding: 10px;
     border-radius: 20px;
 }
@@ -255,6 +269,8 @@ a {
 /* About */
 .about-card {
     background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: var(--border-width) solid var(--border-color);
     padding: 2.5rem;
     font-size: 1.3rem;
@@ -274,25 +290,15 @@ a {
 
 .skill-category {
     background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: var(--border-width) solid var(--border-color);
     padding: 1.5rem;
     box-shadow: var(--shadow);
     text-align: center;
 }
 
-.skill-category:nth-child(1) {
-    background-color: #E0F7FA;
-}
-
-/* Light Cyan */
-.skill-category:nth-child(2) {
-    background-color: #F8F8FF;
-}
-
-/* Ghost White */
-.skill-category:nth-child(3) {
-    background-color: #FFF0F5;
-}
+/* Removed custom color overrides for unified glass theme */
 
 /* Lavender Blush */
 
@@ -329,6 +335,8 @@ a {
 
 .project-card {
     background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: var(--border-width) solid var(--border-color);
     box-shadow: var(--shadow);
     display: flex;
@@ -401,6 +409,8 @@ a {
 
 .activity-card {
     background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: var(--border-width) solid var(--border-color);
     padding: 2rem;
     flex: 1 1 300px;
@@ -440,13 +450,15 @@ a {
 /* Contact */
 .contact-box {
     background: var(--primary-color);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: var(--border-width) solid var(--border-color);
     padding: 3rem;
     text-align: center;
     box-shadow: var(--shadow);
     max-width: 600px;
     margin: 0 auto;
-    color: #fff;
+    color: #ffffff;
 }
 
 .contact-box h2 {
@@ -462,7 +474,7 @@ a {
 }
 
 .social-btn {
-    background: var(--card-bg);
+    background: var(--accent-yellow);
     color: #000;
     border: var(--border-width) solid #000;
     padding: 0.8rem 1.5rem;
@@ -491,36 +503,109 @@ footer {
     padding: 2rem;
     border-top: var(--border-width) solid var(--border-color);
     background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     font-family: var(--font-ui);
 }
 
-/* Responsive */
+/* --- PREMIUM MOBILE RESPONSIVE UI --- */
 @media (max-width: 768px) {
+
+    /* Globally shrink the entire UI by reducing the base REM value from 16px to 13px */
+    html {
+        font-size: 13px;
+    }
+
+    /* Navbar: Compressing elements so it doesn't hijack initial viewport real estate */
     .navbar {
         flex-direction: column;
+        padding: 1rem;
         gap: 1rem;
+    }
+
+    .logo {
+        font-size: 2rem;
+        /* Shrunk specifically for mobile */
+        text-align: center;
     }
 
     .nav-links {
-        gap: 1rem;
-        flex-wrap: wrap;
+        gap: 0.8rem;
         justify-content: center;
+        width: 100%;
     }
 
+    .nav-links a {
+        font-size: 1.05rem;
+        /* Smoother scaling down */
+    }
+
+    .btn-nav {
+        padding: 0.4rem 1.2rem;
+    }
+
+    /* Global Section Defaults */
+    .section {
+        padding: 3rem 1.2rem;
+    }
+
+    /* Hero Unit: Structure standard Mobile 1-stack */
     .hero {
-        flex-direction: column-reverse;
+        flex-direction: column;
+        /* Drop reverse; text belongs on top for hierarchy */
         text-align: center;
+        margin-top: 1rem;
+        gap: 3rem;
     }
 
     .hero-text-box {
         margin: 0 auto;
+        padding: 2rem 1rem;
+        width: 100%;
+        box-sizing: border-box;
     }
 
+    .hero-title {
+        font-size: 3rem;
+        /* Tighter fit */
+        line-height: 1.1;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Large touch-targets for Hero */
     .hero-btns {
         justify-content: center;
+        flex-direction: column;
+        gap: 1.2rem;
+        align-items: center;
     }
 
-    .skills-grid {
+    .hero-btns .btn {
+        width: 100%;
+        max-width: 250px;
+        /* Force uniform column buttons */
+    }
+
+    .hero-img {
+        width: 85vw;
+        /* Fluid relative sizing */
+        max-width: 300px;
+        /* Safe upper cap */
+        height: auto;
+        aspect-ratio: 1 / 1;
+        margin: 0 auto;
+    }
+
+    /* Standardized 1fr Grid Stack */
+    .skills-grid,
+    .projects-grid,
+    .activities-grid,
+    .contact-container {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
 }
