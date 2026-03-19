@@ -1,0 +1,45 @@
+/* Hide default cursor to allow the dynamic CustomCursor to be the only pointer visible */
+* {
+    cursor: none !important;
+}
+
+/* Nav Hover Underline */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+/* Progress Bar */
+.progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--primary-color);
+    transform-origin: 0%;
+    z-index: 99999;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Smooth Card Physics */
+.project-card,
+.skill-category,
+.activity-card {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+}
+
+.project-card:hover,
+.skill-category:hover,
+.activity-card:hover {
+    box-shadow: 10px 10px 0px 0px #000 !important;
+}
