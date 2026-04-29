@@ -18,16 +18,14 @@ const About = () => {
                     whileTap={{ scale: 0.98, skewY: 2 }}
                 >
                     <p>
-                        I’m Arshath, a second-year undergraduate in Information Technology (Data Science).
+                        I’m Arshath, a second-year undergraduate in B.Sc IT & DS.
+                        I enjoy turning ideas into real-world applications, working with technologies like Python, Java, and modern web tools to build meaningful tech solutions. <br /> <br />
                     </p>
                     <p>
-                        I enjoy building software, but more than that, I like understanding how it works.
+                        I’m focused on continuous learning, gaining hands-on experience through projects and challenges, and improving my skills as a developer. <br /> <br />
                     </p>
                     <p>
-                        From web applications to system-level concepts, I’m driven by curiosity about how software works from the ground up.
-                    </p>
-                    <p>
-                        Currently, I’m exploring compilers, terminal tools, and programming language design. The transformation of human-readable logic into machine-level execution is where software feels alive to me.
+                        Beyond academics, athletics has played a significant role in shaping my discipline, consistency, and mindset.
                     </p>
                 </motion.div>
             </div>

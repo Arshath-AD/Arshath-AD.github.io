@@ -18,7 +18,7 @@ const itemVariants = {
 };
 
 const Extracurricular = () => {
-    // Tracks which video is currently being previewed in large mode ('pole' or 'talk')
+    // Tracks which video is currently being previewed in large mode ('pole', 'talk', or 'toast')
     const [preview, setPreview] = useState(null);
 
     return (
@@ -92,7 +92,21 @@ const Extracurricular = () => {
                     whileHover={{ y: -5, rotate: 1, boxShadow: "8px 8px 0px 0px #000" }}
                     whileTap={{ scale: 0.98, skewY: 2 }}
                 >
-                    <div className="activity-icon">🍞</div>
+                    <div
+                        className="activity-video-container"
+                        onMouseEnter={() => setPreview('toast')}
+                        style={{ width: '100%', height: '180px', overflow: 'hidden', borderRadius: '10px', marginBottom: '1rem', border: '2px solid var(--border-color)', cursor: 'none' }}
+                    >
+                        {preview !== 'toast' && (
+                            <motion.video
+                                layoutId="toast-video"
+                                src="/assets/videos/Toastmasters.mp4"
+                                autoPlay loop muted playsInline
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                whileHover={{ scale: 1.05 }}
+                            />
+                        )}
+                    </div>
                     <h3>Toastmasters</h3>
                     <p>Active Member. crafting speeches and evaluations to sharpen communication prowess.</p>
                 </motion.div>
@@ -199,6 +213,48 @@ const Extracurricular = () => {
                                     }}
                                 >
                                     Fourth Semester (30.01.26)
+                                </motion.p>
+                            </motion.div>
+                        )}
+                        {preview === 'toast' && (
+                            <motion.div
+                                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'auto' }}
+                                onMouseLeave={() => setPreview(null)}
+                            >
+                                <motion.video
+                                    layoutId="toast-video"
+                                    src="/assets/videos/Toastmasters.mp4"
+                                    autoPlay loop muted playsInline
+                                    style={{
+                                        width: '80vw',
+                                        maxHeight: '80vh',
+                                        objectFit: 'cover',
+                                        borderRadius: '20px',
+                                        border: 'var(--border-width) solid var(--border-color)',
+                                        boxShadow: '15px 15px 0px 0px #000',
+                                        backgroundColor: 'var(--card-bg)',
+                                        cursor: 'none'
+                                    }}
+                                />
+                                <motion.p
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3 }}
+                                    style={{
+                                        background: 'var(--accent-yellow)',
+                                        color: 'var(--text-color)',
+                                        border: 'var(--border-width) solid var(--border-color)',
+                                        boxShadow: '5px 5px 0px 0px #000',
+                                        padding: '0.5rem 1.5rem',
+                                        borderRadius: '30px',
+                                        marginTop: '1.5rem',
+                                        fontSize: '1.3rem',
+                                        fontWeight: 600,
+                                        fontFamily: 'var(--font-heading)',
+                                        letterSpacing: '1px'
+                                    }}
+                                >
+                                    Video Coming Soon
                                 </motion.p>
                             </motion.div>
                         )}

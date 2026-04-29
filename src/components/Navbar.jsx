@@ -17,7 +17,7 @@ const Navbar = () => {
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li>
-                    <a href="https://drive.google.com/file/d/1GrAaWqFStdF0oBDnahG9vAeTq4WWvmIk/view?usp=drive_link" target="_blank" rel="noreferrer">
+                    <a href="https://drive.google.com/file/d/1jkqFZhWYYwAo4vZenrM0FPBlGj3ZLvBG/view?usp=drive_link" target="_blank" rel="noreferrer">
                         Resume
                     </a>
                 </li>
