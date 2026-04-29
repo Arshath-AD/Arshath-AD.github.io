@@ -18,13 +18,13 @@ const Contact = () => {
                         <h2>Let's Connect!</h2>
                         <div className="social-links">
                             <Magnetic>
-                                <motion.a href="mailto:arshathad2006@gmail.com" className="social-btn" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>Email</motion.a>
+                                <motion.a href="mailto:arshathad2006@gmail.com" target="_blank" rel="noreferrer" className="social-btn" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>Email</motion.a>
                             </Magnetic>
                             <Magnetic>
-                                <motion.a href="https://linkedin.com/in/arshath-ahamed-45b34830a" className="social-btn" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>LinkedIn</motion.a>
+                                <motion.a href="https://linkedin.com/in/arshath-ahamed-45b34830a" target="_blank" rel="noreferrer" className="social-btn" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>LinkedIn</motion.a>
                             </Magnetic>
                             <Magnetic>
-                                <motion.a href="https://github.com/Arshath-AD" className="social-btn" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>GitHub</motion.a>
+                                <motion.a href="https://github.com/Arshath-AD" target="_blank" rel="noreferrer" className="social-btn" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>GitHub</motion.a>
                             </Magnetic>
                         </div>
                         <div className="fun-fact">

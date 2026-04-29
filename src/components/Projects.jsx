@@ -44,7 +44,7 @@ const Projects = () => {
                             admin dashboard, and dynamic homepage.</p>
                     </div>
                     <div className="card-footer">
-                        <a href="https://github.com/Arshath-AD/Anime-review-webapp-orewanova.git" className="btn btn-small">View
+                        <a href="https://github.com/Arshath-AD/Anime-review-webapp-orewanova.git" target="_blank" rel="noreferrer" className="btn btn-small">View
                             Code</a>
                     </div>
                 </motion.article>
@@ -66,7 +66,7 @@ const Projects = () => {
                     </div>
                     <div className="card-footer">
                         <a href="https://github.com/Arshath-AD/Stock-Sentiment-Analyzer-Flask.git"
-                            className="btn btn-small">View Code</a>
+                            target="_blank" rel="noreferrer" className="btn btn-small">View Code</a>
                     </div>
                 </motion.article>
 
@@ -86,7 +86,7 @@ const Projects = () => {
                             of logs.</p>
                     </div>
                     <div className="card-footer">
-                        <a href="https://github.com/Arshath-AD/AttendanceTracker.git" className="btn btn-small">View Code</a>
+                        <a href="https://github.com/Arshath-AD/AttendanceTracker.git" target="_blank" rel="noreferrer" className="btn btn-small">View Code</a>
                     </div>
                 </motion.article>
             </motion.div>

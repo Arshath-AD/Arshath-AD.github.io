@@ -62,7 +62,7 @@ const Hero = () => {
                         top: isScrolled ? '1rem' : 'auto',
                         right: isScrolled ? '2rem' : 'auto',
                         width: isScrolled ? '7.5rem' : '100%',
-                        maxWidth: isScrolled ? '7.5rem' : '24rem',
+                        maxWidth: isScrolled ? '7.5rem' : '22rem',
                         zIndex: isScrolled ? 9999 : 1,
                         boxShadow: isScrolled ? '5px 5px 0px 0px #000' : '10px 10px 0px 0px #000',
                         padding: isScrolled ? '0.25rem' : '0.625rem',

@@ -40,12 +40,14 @@ html {
 /* Dynamic scaling for large screens (e.g. 1920x1080) to prevent the website from looking small */
 @media (min-width: 1600px) {
     html {
-        font-size: 1vw; /* 16px at 1600px, scales up proportionally */
+        font-size: 1vw;
+        /* 16px at 1600px, scales up proportionally */
     }
 }
 
 .container {
-    max-width: 75rem; /* ~1200px */
+    max-width: 75rem;
+    /* ~1200px */
     width: 100%;
     margin: 0 auto;
     padding: 0 1.5rem;
@@ -168,7 +170,8 @@ a {
     padding: 3rem;
     border: var(--border-width) solid var(--border-color);
     box-shadow: var(--shadow);
-    max-width: 56rem; /* 900px */
+    max-width: 54rem;
+    /* Reduced from 56rem */
 }
 
 .hero h1 {
@@ -237,7 +240,8 @@ a {
 }
 
 .hero-img {
-    max-width: 24rem; /* 380px */
+    max-width: 20rem;
+    /* Reduced from 24rem */
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
@@ -294,7 +298,8 @@ a {
     padding: 2.5rem;
     font-size: 1.3rem;
     box-shadow: var(--shadow);
-    max-width: 50rem; /* 800px */
+    max-width: 50rem;
+    /* 800px */
     margin: 0 auto;
     border-radius: 10px;
     /* Slightly rounded */
@@ -303,7 +308,8 @@ a {
 /* Skills */
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); /* 250px */
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    /* 250px */
     gap: 2rem;
 }
 
@@ -348,7 +354,8 @@ a {
 /* Projects */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); /* 300px */
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    /* 300px */
     gap: 2.5rem;
 }
 
@@ -432,8 +439,10 @@ a {
     -webkit-backdrop-filter: blur(15px);
     border: var(--border-width) solid var(--border-color);
     padding: 2rem;
-    flex: 1 1 18rem; /* 300px */
-    max-width: 22rem; /* 350px */
+    flex: 1 1 18rem;
+    /* 300px */
+    max-width: 22rem;
+    /* 350px */
     text-align: center;
     box-shadow: var(--shadow);
     transition: transform 0.2s;
@@ -475,7 +484,8 @@ a {
     padding: 3rem;
     text-align: center;
     box-shadow: var(--shadow);
-    max-width: 37.5rem; /* 600px */
+    max-width: 37.5rem;
+    /* 600px */
     margin: 0 auto;
     color: #ffffff;
 }
@@ -632,14 +642,16 @@ footer {
 
     .hero-btns .btn {
         width: 100%;
-        max-width: 15rem; /* 250px */
+        max-width: 15rem;
+        /* 250px */
         /* Force uniform column buttons */
     }
 
     .hero-img {
         width: 85vw;
         /* Fluid relative sizing */
-        max-width: 18rem; /* 300px */
+        max-width: 18rem;
+        /* 300px */
         /* Safe upper cap */
         height: auto;
         aspect-ratio: 1 / 1;
