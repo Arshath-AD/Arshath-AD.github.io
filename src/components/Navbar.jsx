@@ -7,30 +7,32 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <Magnetic>
-                <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                    Arshath Ahamed M
+            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                <Magnetic>
+                    <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                        Arshath Ahamed M
+                    </div>
+                </Magnetic>
+                <ul className="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li>
+                        <a href="https://drive.google.com/file/d/1jkqFZhWYYwAo4vZenrM0FPBlGj3ZLvBG/view?usp=drive_link" target="_blank" rel="noreferrer">
+                            Resume
+                        </a>
+                    </li>
+                    <li>
+                        <Magnetic>
+                            <a href="#contact" className="btn-nav">Contact</a>
+                        </Magnetic>
+                    </li>
+                </ul>
+                <div className="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-            </Magnetic>
-            <ul className="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li>
-                    <a href="https://drive.google.com/file/d/1jkqFZhWYYwAo4vZenrM0FPBlGj3ZLvBG/view?usp=drive_link" target="_blank" rel="noreferrer">
-                        Resume
-                    </a>
-                </li>
-                <li>
-                    <Magnetic>
-                        <a href="#contact" className="btn-nav">Contact</a>
-                    </Magnetic>
-                </li>
-            </ul>
-            <div className="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
             </div>
             <motion.div
                 className="progress-bar"

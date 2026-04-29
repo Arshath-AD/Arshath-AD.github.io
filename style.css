@@ -33,6 +33,24 @@
     scrollbar-width: none;
 }
 
+html {
+    font-size: 16px;
+}
+
+/* Dynamic scaling for large screens (e.g. 1920x1080) to prevent the website from looking small */
+@media (min-width: 1600px) {
+    html {
+        font-size: 1vw; /* 16px at 1600px, scales up proportionally */
+    }
+}
+
+.container {
+    max-width: 75rem; /* ~1200px */
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
 body {
     overflow-x: hidden;
     background-color: var(--bg-color);
@@ -80,9 +98,9 @@ a {
 /* --- Navigation --- */
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 0;
     background-color: #F7F9F2;
     border-bottom: var(--border-width) solid var(--border-color);
     position: sticky;
@@ -150,7 +168,7 @@ a {
     padding: 3rem;
     border: var(--border-width) solid var(--border-color);
     box-shadow: var(--shadow);
-    max-width: 900px;
+    max-width: 56rem; /* 900px */
 }
 
 .hero h1 {
@@ -219,7 +237,7 @@ a {
 }
 
 .hero-img {
-    max-width: 380px;
+    max-width: 24rem; /* 380px */
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
@@ -276,7 +294,7 @@ a {
     padding: 2.5rem;
     font-size: 1.3rem;
     box-shadow: var(--shadow);
-    max-width: 800px;
+    max-width: 50rem; /* 800px */
     margin: 0 auto;
     border-radius: 10px;
     /* Slightly rounded */
@@ -285,7 +303,7 @@ a {
 /* Skills */
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); /* 250px */
     gap: 2rem;
 }
 
@@ -330,7 +348,7 @@ a {
 /* Projects */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); /* 300px */
     gap: 2.5rem;
 }
 
@@ -414,8 +432,8 @@ a {
     -webkit-backdrop-filter: blur(15px);
     border: var(--border-width) solid var(--border-color);
     padding: 2rem;
-    flex: 1 1 300px;
-    max-width: 350px;
+    flex: 1 1 18rem; /* 300px */
+    max-width: 22rem; /* 350px */
     text-align: center;
     box-shadow: var(--shadow);
     transition: transform 0.2s;
@@ -457,7 +475,7 @@ a {
     padding: 3rem;
     text-align: center;
     box-shadow: var(--shadow);
-    max-width: 600px;
+    max-width: 37.5rem; /* 600px */
     margin: 0 auto;
     color: #ffffff;
 }
@@ -507,6 +525,32 @@ footer {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     font-family: var(--font-ui);
+}
+
+/* --- TABLET RESPONSIVE UI --- */
+@media (max-width: 1024px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        padding-top: 5rem;
+    }
+
+    .hero-text-box {
+        margin: 0 auto;
+    }
+
+    .hero-btns {
+        justify-content: center;
+    }
+
+    .hero-img {
+        max-width: 20rem;
+    }
+
+    .nav-links {
+        gap: 1.2rem;
+    }
 }
 
 /* --- PREMIUM MOBILE RESPONSIVE UI --- */
@@ -588,14 +632,14 @@ footer {
 
     .hero-btns .btn {
         width: 100%;
-        max-width: 250px;
+        max-width: 15rem; /* 250px */
         /* Force uniform column buttons */
     }
 
     .hero-img {
         width: 85vw;
         /* Fluid relative sizing */
-        max-width: 300px;
+        max-width: 18rem; /* 300px */
         /* Safe upper cap */
         height: auto;
         aspect-ratio: 1 / 1;

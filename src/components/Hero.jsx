@@ -51,7 +51,7 @@ const Hero = () => {
                 </motion.div>
             </div>
             <div className="hero-visual">
-                {isScrolled && <div style={{ width: '100%', maxWidth: '380px', aspectRatio: '1/1' }}></div>}
+                {isScrolled && <div style={{ width: '100%', maxWidth: '24rem', aspectRatio: '1/1' }}></div>}
                 <motion.img
                     layout
                     src="assets/images/avatar.png"
@@ -59,13 +59,13 @@ const Hero = () => {
                     className="hero-img"
                     style={{
                         position: isScrolled ? 'fixed' : 'relative',
-                        top: isScrolled ? '10px' : 'auto',
-                        right: isScrolled ? '30px' : 'auto',
-                        width: isScrolled ? '120px' : '100%',
-                        maxWidth: isScrolled ? '120px' : '380px',
+                        top: isScrolled ? '1rem' : 'auto',
+                        right: isScrolled ? '2rem' : 'auto',
+                        width: isScrolled ? '7.5rem' : '100%',
+                        maxWidth: isScrolled ? '7.5rem' : '24rem',
                         zIndex: isScrolled ? 9999 : 1,
                         boxShadow: isScrolled ? '5px 5px 0px 0px #000' : '10px 10px 0px 0px #000',
-                        padding: isScrolled ? '4px' : '10px',
+                        padding: isScrolled ? '0.25rem' : '0.625rem',
                         margin: isScrolled ? 0 : 'auto',
                         cursor: 'pointer'
                     }}

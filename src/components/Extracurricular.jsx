@@ -42,7 +42,7 @@ const Extracurricular = () => {
                     <div
                         className="activity-video-container"
                         onMouseEnter={() => setPreview('pole')}
-                        style={{ width: '100%', height: '180px', overflow: 'hidden', borderRadius: '10px', marginBottom: '1rem', border: '2px solid var(--border-color)', cursor: 'none' }}
+                        style={{ width: '100%', height: '11.25rem', overflow: 'hidden', borderRadius: '10px', marginBottom: '1rem', border: '2px solid var(--border-color)', cursor: 'none' }}
                     >
                         {preview !== 'pole' && (
                             <motion.video
@@ -69,7 +69,7 @@ const Extracurricular = () => {
                     <div
                         className="activity-video-container"
                         onMouseEnter={() => setPreview('talk')}
-                        style={{ width: '100%', height: '180px', overflow: 'hidden', borderRadius: '10px', marginBottom: '1rem', border: '2px solid var(--border-color)', cursor: 'none' }}
+                        style={{ width: '100%', height: '11.25rem', overflow: 'hidden', borderRadius: '10px', marginBottom: '1rem', border: '2px solid var(--border-color)', cursor: 'none' }}
                     >
                         {preview !== 'talk' && (
                             <motion.video
@@ -95,7 +95,7 @@ const Extracurricular = () => {
                     <div
                         className="activity-video-container"
                         onMouseEnter={() => setPreview('toast')}
-                        style={{ width: '100%', height: '180px', overflow: 'hidden', borderRadius: '10px', marginBottom: '1rem', border: '2px solid var(--border-color)', cursor: 'none' }}
+                        style={{ width: '100%', height: '11.25rem', overflow: 'hidden', borderRadius: '10px', marginBottom: '1rem', border: '2px solid var(--border-color)', cursor: 'none' }}
                     >
                         {preview !== 'toast' && (
                             <motion.video
