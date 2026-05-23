@@ -10,6 +10,7 @@ const projects = [
         desc: 'A full-stack anime discovery platform using Django & MongoDB. Features role-based access, custom admin dashboard, and dynamic homepage.',
         url: 'https://github.com/Arshath-AD/Anime-review-webapp-orewanova.git',
         accent: 'var(--primary-color)',
+        ariaLabel: 'View Orewa Nova project source code on GitHub (opens in new tab)',
     },
     {
         num: '02',
@@ -18,6 +19,7 @@ const projects = [
         desc: 'Machine Learning web app to predict NSE stock trends using Random Forest Classifier. Achieved 85% prediction accuracy.',
         url: 'https://github.com/Arshath-AD/Stock-Sentiment-Analyzer-Flask.git',
         accent: 'var(--accent-yellow)',
+        ariaLabel: 'View AI Stock Predictor source code on GitHub (opens in new tab)',
     },
     {
         num: '03',
@@ -26,6 +28,7 @@ const projects = [
         desc: 'Flask-based web app for managing student attendance efficiently. Uses MongoDB for dynamic storage of logs.',
         url: 'https://github.com/Arshath-AD/AttendanceTracker.git',
         accent: '#a5f3c0',
+        ariaLabel: 'View Attendance Tracker source code on GitHub (opens in new tab)',
     },
 ];
 
@@ -77,6 +80,7 @@ const MobileProjects = () => (
                         href={proj.url}
                         target="_blank"
                         rel="noreferrer"
+                        aria-label={proj.ariaLabel}
                         className="m-proj-link"
                     >
                         <GitHubIcon />
@@ -125,7 +129,8 @@ const DesktopProjects = () => (
                         <a 
                             href={proj.url} 
                             target="_blank" 
-                            rel="noreferrer" 
+                            rel="noreferrer"
+                            aria-label={proj.ariaLabel}
                             className="btn btn-small project-btn"
                         >
                             <GitHubIcon /> View Code

@@ -30,7 +30,7 @@ const Navbar = () => {
     );
 
     return (
-        <nav className="navbar">
+        <nav className="navbar" aria-label="Main navigation">
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                 {/* Logo — Magnetic on desktop only */}
                 {isMobile ? logo : <Magnetic>{logo}</Magnetic>}
@@ -41,7 +41,7 @@ const Navbar = () => {
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li>
-                        <a href="https://drive.google.com/file/d/1jkqFZhWYYwAo4vZenrM0FPBlGj3ZLvBG/view?usp=drive_link" target="_blank" rel="noreferrer">
+                        <a href="https://drive.google.com/file/d/1jkqFZhWYYwAo4vZenrM0FPBlGj3ZLvBG/view?usp=drive_link" target="_blank" rel="noreferrer" aria-label="Open Arshath Ahamed's resume (opens in new tab)">
                             Resume
                         </a>
                     </li>
@@ -80,7 +80,7 @@ const Navbar = () => {
                         <li><a href="#skills" onClick={closeMenu}>Skills</a></li>
                         <li><a href="#projects" onClick={closeMenu}>Projects</a></li>
                         <li>
-                            <a href="https://drive.google.com/file/d/1jkqFZhWYYwAo4vZenrM0FPBlGj3ZLvBG/view?usp=drive_link" target="_blank" rel="noreferrer" onClick={closeMenu}>
+                            <a href="https://drive.google.com/file/d/1jkqFZhWYYwAo4vZenrM0FPBlGj3ZLvBG/view?usp=drive_link" target="_blank" rel="noreferrer" onClick={closeMenu} aria-label="Open Arshath Ahamed's resume (opens in new tab)">
                                 Resume
                             </a>
                         </li>

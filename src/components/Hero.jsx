@@ -13,7 +13,7 @@ const textVariants = {
 
 /* ─── Mobile Hero ─────────────────────────────────────────── */
 const MobileHero = () => (
-    <header className="m-hero">
+    <header className="m-hero" aria-label="Hero section">
         <motion.div
             className="m-hero-inner"
             variants={containerVariants}
@@ -24,8 +24,10 @@ const MobileHero = () => (
             <motion.div variants={textVariants} className="m-avatar-wrap">
                 <img
                     src="assets/images/avatar.png"
-                    alt="Arshath Ahamed"
+                    alt="Arshath Ahamed – CS student and developer"
                     className="m-avatar"
+                    width="200"
+                    height="200"
                 />
             </motion.div>
 
@@ -67,7 +69,7 @@ const DesktopHero = () => {
     });
 
     return (
-        <header className="hero">
+        <header className="hero" aria-label="Hero section">
             <div className="hero-content">
                 <motion.div
                     className="hero-text-box bento-card"
@@ -105,8 +107,10 @@ const DesktopHero = () => {
                 <motion.img
                     layout
                     src="assets/images/avatar.png"
-                    alt="Arshath Cartoon Avatar"
+                    alt="Arshath Ahamed – CS student and developer"
                     className="hero-img"
+                    width="352"
+                    height="352"
                     style={{
                         position:  isScrolled ? 'fixed'    : 'relative',
                         top:       isScrolled ? '0.5rem'   : 'auto',

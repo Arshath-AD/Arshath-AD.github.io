@@ -27,18 +27,21 @@ const links = [
         href: 'mailto:arshathad2006@gmail.com',
         Icon: EmailIcon,
         accent: 'var(--primary-color)',
+        ariaLabel: 'Send an email to Arshath Ahamed',
     },
     {
         label: 'LinkedIn',
         href: 'https://linkedin.com/in/arshath-ahamed-45b34830a',
         Icon: LinkedInIcon,
         accent: 'var(--accent-yellow)',
+        ariaLabel: "View Arshath Ahamed's LinkedIn profile (opens in new tab)",
     },
     {
         label: 'GitHub',
         href: 'https://github.com/Arshath-AD',
         Icon: GitHubIcon,
         accent: '#a5f3c0',
+        ariaLabel: "View Arshath Ahamed's GitHub profile (opens in new tab)",
     },
 ];
 
@@ -73,6 +76,7 @@ const MobileContact = () => (
                         href={link.href}
                         target="_blank"
                         rel="noreferrer"
+                        aria-label={link.ariaLabel}
                         className="m-contact-btn"
                         style={{ '--link-accent': link.accent }}
                         initial={{ opacity: 0, x: -40 }}
@@ -119,7 +123,8 @@ const DesktopContact = () => (
                                 <motion.a 
                                     href={link.href} 
                                     target="_blank" 
-                                    rel="noreferrer" 
+                                    rel="noreferrer"
+                                    aria-label={link.ariaLabel}
                                     className="social-btn"
                                     style={{ background: link.accent }}
                                     whileHover={{ scale: 1.05, y: -4, x: -4, boxShadow: '8px 8px 0px 0px #000' }} 
