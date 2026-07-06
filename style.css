@@ -783,15 +783,39 @@ a {
     padding: 2.5rem;
     box-shadow: var(--shadow);
     border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                filter 0.3s ease, 
+                opacity 0.3s ease;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
+/* Hover effect on touch/mobile devices (fallback) */
 .bento-card:hover {
     transform: translate(-4px, -4px);
     box-shadow: 10px 10px 0 #000;
+}
+
+/* Premium Focus Hover Effect (Desktop only) */
+@media (min-width: 901px) {
+    /* When the parent is hovered, blur and dim ALL cards */
+    .about-bento:hover .bento-card {
+        filter: blur(5px) grayscale(50%);
+        opacity: 0.5;
+        transform: scale(0.98);
+        box-shadow: var(--shadow);
+    }
+
+    /* Un-blur the specifically hovered card, scale it up, and pop it out */
+    .about-bento .bento-card:hover {
+        filter: blur(0) grayscale(0%);
+        opacity: 1;
+        transform: translate(-4px, -4px) scale(1.02);
+        box-shadow: 12px 12px 0 #000;
+        z-index: 10;
+    }
 }
 
 .bento-header {
@@ -1305,9 +1329,6 @@ footer {
     }
 
     .m-about-card {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.85rem;
         background: var(--card-bg);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
@@ -1315,7 +1336,13 @@ footer {
         border-left: 4px solid var(--card-accent, var(--primary-color));
         box-shadow: 4px 4px 0 #000;
         border-radius: 10px;
-        padding: 1rem 1rem;
+        padding: 1rem 1rem 2.2rem 1rem; /* Extra padding at the bottom for the label */
+    }
+
+    .m-about-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.85rem;
     }
 
     .m-about-icon {
@@ -2176,4 +2203,297 @@ body.rm-open .navbar {
         width: 100vw !important;
         background: #fff !important;
     }
+}
+/* ════════════════════════════════════════════════════════
+   DOSSIER CARD AESTHETIC (Who Am I?)
+════════════════════════════════════════════════════════ */
+.dossier-card {
+    position: relative;
+    overflow: hidden;
+    /* Layered paper effect */
+    background: 
+        linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.02) 100%),
+        var(--card-bg);
+}
+
+.dossier-card::after {
+    /* Paper texture overlay (subtle grain) */
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+}
+
+.dossier-content, .m-about-content {
+    position: relative;
+    z-index: 5; /* Keep content above decorations */
+}
+
+/* Watermarks */
+.dossier-watermark {
+    position: absolute;
+    bottom: -15%;
+    right: -5%;
+    font-size: 12rem;
+    font-family: var(--font-heading);
+    color: var(--text-color);
+    opacity: 0.03;
+    z-index: 0;
+    pointer-events: none;
+    line-height: 1;
+    user-select: none;
+    transform: rotate(-10deg);
+}
+
+.bento-2 .dossier-watermark {
+    font-size: 15rem;
+    right: -10%;
+    bottom: -10%;
+}
+
+.m-about-card .dossier-watermark {
+    font-size: 8rem;
+    bottom: -10%;
+    right: -5%;
+}
+
+/* Crosshairs (Registration marks) */
+.dossier-crosshair {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.4;
+}
+.dossier-crosshair::before,
+.dossier-crosshair::after {
+    content: '';
+    position: absolute;
+    background: var(--text-color);
+}
+.dossier-crosshair::before { width: 100%; height: 1px; top: 50%; left: 0; }
+.dossier-crosshair::after { width: 1px; height: 100%; top: 0; left: 50%; }
+
+.dossier-crosshair.tl { top: 12px; left: 12px; }
+.dossier-crosshair.tr { top: 12px; right: 12px; }
+.dossier-crosshair.bl { bottom: 12px; left: 12px; }
+.dossier-crosshair.br { bottom: 12px; right: 12px; }
+
+/* Labels & Codes */
+.dossier-code {
+    position: absolute;
+    top: 10px;
+    right: 32px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-color);
+    opacity: 0.5;
+    z-index: 2;
+}
+
+.dossier-label {
+    position: absolute;
+    bottom: 12px;
+    left: 32px;
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--card-bg);
+    background: var(--text-color);
+    padding: 2px 6px;
+    border-radius: 2px;
+    z-index: 2;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+}
+
+.bento-card .dossier-label {
+    bottom: auto;
+    left: 12px;
+    top: 50%;
+    transform-origin: left top;
+    transform: rotate(-90deg) translateX(-50%);
+    margin-left: 2px;
+}
+
+/* Folded corner effect (Top Right) */
+.dossier-fold {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 30px;
+    height: 30px;
+    background: var(--bg-color);
+    z-index: 4;
+}
+
+.dossier-fold::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 30px 30px 0 0;
+    border-color: var(--card-bg) transparent transparent transparent;
+    filter: brightness(0.85); /* Make the back of the paper slightly darker */
+    box-shadow: -2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.dossier-fold::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+    /* Clip it to hide the square behind the fold */
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+
+/* ════════════════════════════════════════════════════════
+   EQUIPMENT CASE AESTHETIC (My Toolkit)
+════════════════════════════════════════════════════════ */
+.eq-case {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Industrial metal texture overlay */
+.eq-case::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.m-skill-header, .m-skill-tags, .bento-header, .tags {
+    position: relative;
+    z-index: 5;
+}
+
+.eq-case-decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Metal Latches */
+.eq-latch {
+    position: absolute;
+    width: 28px;
+    height: 10px;
+    background: var(--text-color);
+    top: 0;
+    border-radius: 0 0 4px 4px;
+    box-shadow: inset 0 -2px 0 rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.2);
+}
+.eq-latch.tl { left: 15%; }
+.eq-latch.tr { right: 15%; }
+
+/* Barcode */
+.eq-barcode {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: var(--text-color);
+    opacity: 0.25;
+    transform: scaleY(1.5);
+}
+
+/* Equipment ID */
+.eq-id {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--card-bg);
+    background: var(--text-color);
+    padding: 2px 6px;
+    border-radius: 2px;
+}
+
+/* QA Pass Stamp (Desktop Only) */
+.eq-stamp {
+    position: absolute;
+    bottom: 30%;
+    left: 10%;
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: #ff3366;
+    opacity: 0.12;
+    transform: rotate(-15deg);
+    border: 4px solid #ff3366;
+    padding: 4px 12px;
+    border-radius: 4px;
+    user-select: none;
+}
+@media (max-width: 640px) {
+    .eq-stamp { display: none; }
+}
+
+/* ─── Inventory Tags ─── */
+.eq-tag {
+    position: relative;
+    border-radius: 4px !important; /* Industrial rectangular tag */
+    border: 2px solid var(--text-color) !important;
+    background: #fdfdfd !important; /* Always paper white */
+    color: #111 !important;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.8) !important;
+    padding: 0.4rem 0.8rem 0.4rem 2rem !important; /* Room for the hole */
+    transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    transform-origin: center;
+    cursor: pointer;
+}
+
+.eq-tag .eq-tag-hole {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--card-bg);
+    border: 1.5px solid var(--text-color);
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 0 rgba(0,0,0,0.5);
+}
+
+/* Tiny Imperfections */
+.eq-tag:nth-child(2n) {
+    transform: rotate(1.5deg) translateY(1px);
+}
+.eq-tag:nth-child(3n) {
+    transform: rotate(-1.2deg) translateY(-1px);
+    padding-right: 1.2rem !important; /* Slightly varied width */
+}
+.eq-tag:nth-child(5n) {
+    transform: rotate(2deg);
+}
+
+/* Tactile Micro-Interactions */
+.eq-tag:hover {
+    /* Press down, fix rotation, compress shadow */
+    transform: rotate(0deg) translateY(2px) !important;
+    box-shadow: 0px 0px 0 rgba(0,0,0,0.8) !important;
 }

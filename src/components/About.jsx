@@ -25,6 +25,9 @@ const mobileCards = [
         color: 'var(--primary-color)',
         from: -60,
         rotate: -2,
+        code: 'DS-01A',
+        watermark: '</>',
+        label: 'PROFILE: STUDENT',
     },
     {
         Icon: GrowthIcon,
@@ -32,6 +35,9 @@ const mobileCards = [
         color: 'var(--accent-yellow)',
         from: 60,
         rotate: 1.5,
+        code: 'DEV-99X',
+        watermark: '{ }',
+        label: 'PROFILE: DEVELOPER',
     },
     {
         Icon: AthleticsIcon,
@@ -39,6 +45,9 @@ const mobileCards = [
         color: '#a5f3c0',
         from: -60,
         rotate: -1,
+        code: 'ATH-400M',
+        watermark: '⏱',
+        label: 'PROFILE: ATHLETE',
     },
 ];
 
@@ -58,7 +67,7 @@ const MobileAbout = () => (
             {mobileCards.map((card, i) => (
                 <motion.div
                     key={i}
-                    className="m-about-card"
+                    className="m-about-card dossier-card"
                     style={{ '--card-accent': card.color }}
                     initial={{ opacity: 0, x: card.from, rotate: card.rotate * 2 }}
                     whileInView={{ opacity: 1, x: 0, rotate: 0 }}
@@ -66,8 +75,20 @@ const MobileAbout = () => (
                     transition={{ type: 'spring', bounce: 0.35, duration: 0.65, delay: i * 0.12 }}
                     whileTap={{ scale: 0.97 }}
                 >
-                    <span className="m-about-icon" aria-hidden="true"><card.Icon /></span>
-                    <p className="m-about-text">{card.text}</p>
+                    <div className="dossier-watermark" aria-hidden="true">{card.watermark}</div>
+                    <div className="dossier-decorations" aria-hidden="true">
+                        <span className="dossier-crosshair tl"></span>
+                        <span className="dossier-crosshair tr"></span>
+                        <span className="dossier-crosshair bl"></span>
+                        <span className="dossier-crosshair br"></span>
+                        <span className="dossier-code">{card.code}</span>
+                        <span className="dossier-label">{card.label}</span>
+                        <div className="dossier-fold"></div>
+                    </div>
+                    <div className="m-about-content">
+                        <span className="m-about-icon" aria-hidden="true"><card.Icon /></span>
+                        <p className="m-about-text">{card.text}</p>
+                    </div>
                 </motion.div>
             ))}
         </div>
@@ -109,48 +130,84 @@ const DesktopAbout = () => (
             <div className="about-bento">
                 {/* Card 1: The Coder (Wide, Left) */}
                 <motion.div
-                    className="bento-card bento-1"
+                    className="bento-card bento-1 dossier-card"
                     variants={bentoItemVariants}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <div className="bento-header">
-                        <CodeIcon />
-                        <h3>Student</h3>
+                    <div className="dossier-watermark" aria-hidden="true">&lt;/&gt;</div>
+                    <div className="dossier-decorations" aria-hidden="true">
+                        <span className="dossier-crosshair tl"></span>
+                        <span className="dossier-crosshair tr"></span>
+                        <span className="dossier-crosshair bl"></span>
+                        <span className="dossier-crosshair br"></span>
+                        <span className="dossier-code">DS-01A</span>
+                        <span className="dossier-label">PROFILE: STUDENT</span>
+                        <div className="dossier-fold"></div>
                     </div>
-                    <p>
-                        I'm Arshath, a second-year undergraduate in B.Sc IT & DS.
-                        I enjoy turning ideas into real-world applications, working with technologies like Python, Java, and modern web tools to build meaningful tech solutions.
-                    </p>
+                    <div className="dossier-content">
+                        <div className="bento-header">
+                            <CodeIcon />
+                            <h3>Student</h3>
+                        </div>
+                        <p>
+                            I'm Arshath, a second-year undergraduate in B.Sc IT & DS.
+                            I enjoy turning ideas into real-world applications, working with technologies like Python, Java, and modern web tools to build meaningful tech solutions.
+                        </p>
+                    </div>
                 </motion.div>
 
                 {/* Card 2: The Learner (Tall, Right) */}
                 <motion.div
-                    className="bento-card bento-2"
+                    className="bento-card bento-2 dossier-card"
                     variants={bentoItemVariants}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <div className="bento-header">
-                        <GrowthIcon />
-                        <h3>Developer</h3>
+                    <div className="dossier-watermark" aria-hidden="true">&#123; &#125;</div>
+                    <div className="dossier-decorations" aria-hidden="true">
+                        <span className="dossier-crosshair tl"></span>
+                        <span className="dossier-crosshair tr"></span>
+                        <span className="dossier-crosshair bl"></span>
+                        <span className="dossier-crosshair br"></span>
+                        <span className="dossier-code">DEV-99X</span>
+                        <span className="dossier-label">PROFILE: DEVELOPER</span>
+                        <div className="dossier-fold"></div>
                     </div>
-                    <p>
-                        I'm focused on continuous learning, gaining hands-on experience through projects and challenges, and improving my skills as a developer every single day.
-                    </p>
+                    <div className="dossier-content">
+                        <div className="bento-header">
+                            <GrowthIcon />
+                            <h3>Developer</h3>
+                        </div>
+                        <p>
+                            I'm focused on continuous learning, gaining hands-on experience through projects and challenges, and improving my skills as a developer every single day.
+                        </p>
+                    </div>
                 </motion.div>
 
                 {/* Card 3: The Athlete (Full width, Bottom) */}
                 <motion.div
-                    className="bento-card bento-3"
+                    className="bento-card bento-3 dossier-card"
                     variants={bentoItemVariants}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <div className="bento-header">
-                        <AthleticsIcon />
-                        <h3>Athlete</h3>
+                    <div className="dossier-watermark" aria-hidden="true">⏱</div>
+                    <div className="dossier-decorations" aria-hidden="true">
+                        <span className="dossier-crosshair tl"></span>
+                        <span className="dossier-crosshair tr"></span>
+                        <span className="dossier-crosshair bl"></span>
+                        <span className="dossier-crosshair br"></span>
+                        <span className="dossier-code">ATH-400M</span>
+                        <span className="dossier-label">PROFILE: ATHLETE</span>
+                        <div className="dossier-fold"></div>
                     </div>
-                    <p>
-                        Beyond code, athletics has been a huge part of my life, shaping my discipline and consistency. Whether it's the track or a terminal, I'm always looking for the next bar to clear!
-                    </p>
+                    <div className="dossier-content">
+                        <div className="bento-header">
+                            <AthleticsIcon />
+                            <h3>Athlete</h3>
+                        </div>
+                        <p>
+                            Beyond code, athletics has been a huge part of my life, shaping my discipline and consistency. Whether it's the track or a terminal, I'm always looking for the next bar to clear!
+                        </p>
+                    </div>
                 </motion.div>
             </div>
         </div>

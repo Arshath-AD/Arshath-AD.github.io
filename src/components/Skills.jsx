@@ -15,10 +15,11 @@ const skillGroups = [
             { label: 'Python',     icon: 'devicon-python-plain colored' },
             { label: 'Java',       icon: 'devicon-java-plain colored' },
             { label: 'JavaScript', icon: 'devicon-javascript-plain colored' },
+            { label: 'PHP',        icon: 'devicon-php-plain colored' },
         ],
     },
     {
-        title: 'Web',
+        title: 'Frameworks',
         accent: 'var(--accent-yellow)',
         icon: (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -27,11 +28,12 @@ const skillGroups = [
             </svg>
         ),
         skills: [
-            { label: 'HTML5',  icon: 'devicon-html5-plain colored' },
-            { label: 'CSS',    icon: 'devicon-css3-plain colored' },
-            { label: 'React',  icon: 'devicon-react-original colored' },
-            { label: 'Django', icon: 'devicon-django-plain colored' },
-            { label: 'Flask',  icon: 'devicon-flask-original colored' },
+            { label: 'HTML5',   icon: 'devicon-html5-plain colored' },
+            { label: 'CSS',     icon: 'devicon-css3-plain colored' },
+            { label: 'React',   icon: 'devicon-react-original colored' },
+            { label: 'Django',  icon: 'devicon-django-plain colored' },
+            { label: 'Flask',   icon: 'devicon-flask-original colored' },
+            { label: 'FastAPI', icon: 'devicon-fastapi-plain colored' },
         ],
     },
     {
@@ -78,32 +80,37 @@ const MobileSkills = () => (
             {skillGroups.map((group, gi) => (
                 <motion.div
                     key={gi}
-                    className="m-skill-card"
+                    className="m-skill-card eq-case"
                     style={{ '--skill-accent': group.accent }}
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.25 }}
                     transition={{ type: 'spring', bounce: 0.35, duration: 0.6, delay: gi * 0.1 }}
-                    whileTap={{ scale: 0.98 }}
                 >
-                    {/* Card header */}
+                    <div className="eq-case-decor" aria-hidden="true">
+                        <span className="eq-latch tl"></span>
+                        <span className="eq-latch tr"></span>
+                        <span className="eq-barcode">|| | |||| | ||</span>
+                        <span className="eq-id">INV-0{gi + 1}</span>
+                    </div>
+
                     <div className="m-skill-header">
                         <span className="m-skill-icon">{group.icon}</span>
                         <h3 className="m-skill-title">{group.title}</h3>
                     </div>
 
-                    {/* Skill tags */}
                     <div className="m-skill-tags">
                         {group.skills.map((skill, si) => (
                             <motion.span
                                 key={si}
-                                className="tag m-tag"
+                                className="tag m-tag eq-tag"
                                 custom={si}
                                 variants={tagVariants}
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true, amount: 0.5 }}
                             >
+                                <span className="eq-tag-hole"></span>
                                 <i className={skill.icon} />
                                 {skill.label}
                             </motion.span>
@@ -115,7 +122,7 @@ const MobileSkills = () => (
     </section>
 );
 
-/* ─── Desktop Skills (untouched) ─────────────────────────── */
+/* ─── Desktop Skills (untouched layout, added decor) ─────── */
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
@@ -138,11 +145,18 @@ const DesktopSkills = () => (
             {skillGroups.map((group, gi) => (
                 <motion.div 
                     key={gi} 
-                    className="skill-category" 
+                    className="skill-category eq-case" 
                     variants={itemVariants} 
                     style={{ borderTop: `6px solid ${group.accent}` }}
-                    whileTap={{ scale: 0.98 }}
                 >
+                    <div className="eq-case-decor" aria-hidden="true">
+                        <span className="eq-latch tl"></span>
+                        <span className="eq-latch tr"></span>
+                        <span className="eq-barcode">|| | |||| | ||</span>
+                        <span className="eq-id">INV-0{gi + 1}</span>
+                        <span className="eq-stamp">QA PASS</span>
+                    </div>
+                    
                     <div className="bento-header">
                         {group.icon}
                         <h3>{group.title}</h3>
@@ -151,13 +165,14 @@ const DesktopSkills = () => (
                         {group.skills.map((skill, si) => (
                             <motion.span
                                 key={si}
-                                className="tag"
+                                className="tag eq-tag"
                                 custom={si}
                                 variants={tagVariants}
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true, amount: 0.5 }}
                             >
+                                <span className="eq-tag-hole"></span>
                                 <i className={skill.icon} />
                                 {skill.label}
                             </motion.span>
