@@ -4,11 +4,11 @@ import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 /* ─── Shared animation variants ──────────────────────────── */
 const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.15 } }
+    visible: { opacity: 1, transition: { staggerChildren: 0.04, delayChildren: 0 } }
 };
 const textVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { type: 'spring', bounce: 0.35, duration: 0.7 } },
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', bounce: 0.5, duration: 0.25 } },
     hover: { scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } }
 };
 
@@ -47,8 +47,8 @@ const AnimatedHeadline = () => {
             const hoverColor = isHighlight ? brandColors[index % brandColors.length] : undefined;
 
             const letterVariants = {
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0, transition: { type: 'spring', bounce: 0.35, duration: 0.7 } },
+                hidden: { opacity: 0, y: 15 },
+                visible: { opacity: 1, y: 0, transition: { type: 'spring', bounce: 0.5, duration: 0.25 } },
                 hover: {
                     scale: 1.05,
                     y: archY + randomY,
@@ -267,6 +267,45 @@ const AvatarBubbles = ({ isScrolled }) => {
 
     return (
         <>
+            {/* ── Bouncy "I'm here!" CTA (Visible when NOT hovered) ── */}
+            <motion.div
+                className="hover-cta bounce-anim"
+                variants={{
+                    initial: { opacity: 1, scale: 1 },
+                    hover: { opacity: 0, scale: 0.8, transition: { duration: 0.15 } }
+                }}
+                style={{
+                    position: 'absolute',
+                    top: '-40px',
+                    right: '-40px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    pointerEvents: 'none',
+                    zIndex: 20
+                }}
+            >
+                <span
+                    style={{
+                        fontFamily: "'Permanent Marker', cursive",
+                        fontSize: '1.6rem',
+                        color: '#fff',
+                        WebkitTextStroke: '1px #111',
+                        transform: 'rotate(15deg)'
+                    }}
+                >
+                    Hover me!
+                </span>
+
+                <svg
+                    width="40" height="40" viewBox="0 0 40 40" fill="none"
+                    style={{ transform: 'rotate(10deg)', marginTop: '-5px' }}
+                >
+                    <path d="M15 5 Q30 20 15 35 M15 35 L25 30 M15 35 L20 20" stroke="#111" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M15 5 Q30 20 15 35 M15 35 L25 30 M15 35 L20 20" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            </motion.div>
+
             {/* Red — Comic book action red */}
             <CloudBubble
                 text="'HAHAHA' needs me"

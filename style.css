@@ -2048,6 +2048,16 @@ body.rm-open .navbar {
     display: block;
 }
 
+/* ── Floating Bouncy Animation ───────────────────────── */
+.bounce-anim {
+    animation: floatBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes floatBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
 /* ════════════════════════════════════════════════════════
    RESPONSIVE
 ════════════════════════════════════════════════════════ */
