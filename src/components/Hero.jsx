@@ -384,7 +384,12 @@ const DesktopHero = () => {
                 >
                     <HeroDecorations />
                     <AnimatedHeadline />
-                    <motion.p variants={textVariants} className="subtitle">Computer Science Grad</motion.p>
+                    <motion.p variants={textVariants} className="subtitle">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: '6px' }}>
+                            <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
+                        </svg>
+                        Computer Science Grad
+                    </motion.p>
                     <motion.p variants={textVariants} className="hero-desc">Currently debugging my life. Every day is a breakpoint.</motion.p>
                     <motion.div variants={textVariants} className="hero-btns">
                         <motion.a

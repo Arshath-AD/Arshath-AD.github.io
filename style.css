@@ -669,11 +669,29 @@ a {
 }
 
 .subtitle {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
     font-family: var(--font-ui);
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-size: 0.95rem; /* Drastically smaller text */
+    font-weight: 700;
+    background: var(--accent-yellow);
+    border: 1.5px solid var(--border-color); /* Thinner stroke */
+    box-shadow: 2px 2px 0 #000; /* Shallower shadow */
+    padding: 0.25rem 0.8rem; /* Tighter padding for a "stick" look */
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
     color: var(--text-color);
+}
+
+.hero-desc {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    border-left: 3.5px solid var(--border-color);
+    padding-left: 1rem;
+    margin-top: 0.5rem;
 }
 
 .hero-btns {
@@ -752,17 +770,107 @@ a {
 }
 
 .section-title {
-    font-size: 3rem;
+    font-size: 3.5rem;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
     position: relative;
     display: inline-block;
     left: 50%;
-    transform: translateX(-50%);
-    background: var(--accent-yellow);
-    padding: 0.5rem 1.5rem;
-    border: var(--border-width) solid var(--border-color);
-    box-shadow: 4px 4px 0 #000;
+    transform: translateX(-50%) rotate(-1.5deg);
+    background-color: var(--accent-yellow);
+    /* Classic comic halftone dot pattern */
+    background-image: 
+        radial-gradient(rgba(0,0,0,0.15) 2px, transparent 2px),
+        radial-gradient(rgba(0,0,0,0.15) 2px, transparent 2px);
+    background-size: 12px 12px;
+    background-position: 0 0, 6px 6px;
+    padding: 0.75rem 3rem;
+    border: 4px solid var(--border-color);
+    box-shadow: 8px 8px 0 #000;
+    color: var(--text-color);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    /* Crisp white halo to lift the text off the halftone background */
+    text-shadow: 
+        -2px -2px 0 #fff, 2px -2px 0 #fff, 
+        -2px 2px 0 #fff, 2px 2px 0 #fff,
+        3px 3px 0 #fff; 
+    z-index: 10;
+    cursor: default;
+    transition: background-position 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                text-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.section-title:hover {
+    /* Parallax drift: halftone moves up/left slightly */
+    background-position: -2px -2px, 4px 4px;
+    /* Inset shadow simulates the paper background receding */
+    box-shadow: 8px 8px 0 #000, inset 6px 6px 0 rgba(0,0,0,0.1);
+    /* Deep black drop-shadow separates the ink from the page */
+    text-shadow: 
+        -2px -2px 0 #fff, 2px -2px 0 #fff, 
+        -2px 2px 0 #fff, 2px 2px 0 #fff,
+        3px 3px 0 #fff,
+        6px 6px 0 #111;
+}
+
+/* Physical masking tape pieces holding the title onto the page */
+.section-title::before, .section-title::after {
+    content: '';
+    position: absolute;
+    width: 28px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 2px solid var(--border-color);
+    top: -8px;
+    box-shadow: 2px 2px 0 #000;
+    z-index: 11;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.section-title::before {
+    left: 20px;
+    transform: rotate(-6deg);
+}
+.section-title::after {
+    right: 20px;
+    transform: rotate(8deg);
+}
+
+.section-title:hover::before {
+    transform: rotate(-9deg) translateY(-2px) scale(1.05);
+    box-shadow: 3px 4px 0 #000;
+}
+.section-title:hover::after {
+    transform: rotate(11deg) translateY(-2px) scale(1.05);
+    box-shadow: 3px 4px 0 #000;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2.25rem;
+        padding: 0.5rem 2rem;
+        border-width: 3px;
+        box-shadow: 5px 5px 0 #000;
+        margin-bottom: 3rem;
+    }
+    .section-title:hover {
+        /* Limit the shadow sizes on mobile */
+        box-shadow: 5px 5px 0 #000, inset 4px 4px 0 rgba(0,0,0,0.1);
+        text-shadow: 
+            -2px -2px 0 #fff, 2px -2px 0 #fff, 
+            -2px 2px 0 #fff, 2px 2px 0 #fff,
+            3px 3px 0 #fff,
+            4px 4px 0 #111;
+    }
+    .section-title::before, .section-title::after {
+        width: 20px;
+        height: 10px;
+        top: -6px;
+    }
+    .section-title::before { left: 10px; }
+    .section-title::after { right: 10px; }
 }
 
 /* About Bento Layout */
@@ -1826,15 +1934,15 @@ footer {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1.5rem;
-        width: 24px; /* Fixed width prevents jitter when lines change size */
-        padding: 2rem 0;
+        gap: 1.25rem;
+        width: 18px; /* Slimmer horizontal profile */
+        padding: 1.5rem 0;
         background-color: var(--card-bg);
-        border: var(--border-width) solid var(--border-color);
+        border: 2px solid var(--border-color);
         /* Right side flush with screen */
         border-right: none;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
         box-shadow: none;
     }
 
@@ -1842,14 +1950,16 @@ footer {
         width: 3px;
         height: 36px;
         background-color: var(--border-color);
+        border: 1px solid transparent;
         border-radius: 0;
-        transition: width 0.3s ease, background-color 0.3s ease;
+        transition: width 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
         cursor: pointer;
     }
 
     .m-sidebar-line.active {
-        width: 7px;
+        width: 9px;
         background-color: var(--primary-color);
+        border: 1.5px solid var(--border-color);
         box-shadow: none;
     }
 }
@@ -2452,48 +2562,456 @@ body.rm-open .navbar {
     .eq-stamp { display: none; }
 }
 
-/* ─── Inventory Tags ─── */
-.eq-tag {
-    position: relative;
-    border-radius: 4px !important; /* Industrial rectangular tag */
-    border: 2px solid var(--text-color) !important;
-    background: #fdfdfd !important; /* Always paper white */
-    color: #111 !important;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.8) !important;
-    padding: 0.4rem 0.8rem 0.4rem 2rem !important; /* Room for the hole */
-    transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-    transform-origin: center;
-    cursor: pointer;
+/* ─── IDE Explorer Aesthetic ─── */
+.ide-panel {
+    /* Base padding and borders are already handled by .skill-category / .m-skill-card */
 }
 
-.eq-tag .eq-tag-hole {
+/* Hide default details marker */
+.ide-folder > summary {
+    list-style: none;
+}
+.ide-folder > summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Folder Header */
+.ide-folder-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+    margin-bottom: 0.5rem;
+    border: 1.5px solid transparent;
+}
+
+.ide-folder-header:hover {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.1);
+}
+
+/* Mobile specific overrides to restore the colorful top banner */
+.m-skill-card .ide-folder-header {
+    background: var(--skill-accent, var(--primary-color));
+    border-radius: 0;
+    border: none;
+    border-bottom: 1.5px solid var(--border-color);
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0; /* Override */
+}
+
+.m-skill-card .ide-folder-icon {
+    color: var(--text-color);
+    filter: none;
+}
+
+.m-skill-card .ide-folder-header:hover {
+    background: var(--skill-accent, var(--primary-color)); /* No hover effect on mobile header */
+    border-color: var(--border-color);
+}
+
+.m-skill-card .ide-file-list {
+    padding-right: 1rem;
+    padding-bottom: 0.85rem;
+    margin-bottom: 0;
+}
+
+
+.ide-arrow {
+    font-size: 0.8rem;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ide-folder[open] .ide-arrow {
+    transform: rotate(90deg);
+}
+
+.ide-folder-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--skill-accent, var(--primary-color));
+    filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.8));
+}
+
+.ide-folder-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-family: var(--font-heading);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.ide-module-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    background: var(--text-color);
+    color: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-family: var(--font-ui);
+    font-weight: 800;
+}
+
+/* File Tree */
+.ide-file-list {
+    position: relative;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+}
+
+.ide-guide-line {
     position: absolute;
-    left: 8px;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0.5rem;
+    width: 2px;
+    background: var(--border-color);
+    opacity: 0.2;
+}
+
+.ide-file {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--bg-color);
+    border: 1.5px solid var(--border-color);
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+    margin-bottom: 0.25rem;
+    max-width: 190px;
+}
+
+.ide-file:hover {
+    transform: translateX(4px);
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+}
+
+.ide-file-branch {
+    position: absolute;
+    left: -0.5rem;
     top: 50%;
-    transform: translateY(-50%);
+    width: 0.5rem;
+    height: 2px;
+    background: var(--border-color);
+    opacity: 0.2;
+}
+
+.ide-file-icon {
+    font-size: 1.25rem;
+    filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.15));
+}
+
+.ide-file-name {
+    font-size: 0.95rem;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.ide-file-status {
+    margin-left: auto;
     width: 8px;
     height: 8px;
-    background: var(--card-bg);
-    border: 1.5px solid var(--text-color);
     border-radius: 50%;
-    box-shadow: inset 1px 1px 0 rgba(0,0,0,0.5);
+    background: var(--primary-color);
+    opacity: 0.4;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    border: 1px solid var(--text-color);
 }
 
-/* Tiny Imperfections */
-.eq-tag:nth-child(2n) {
-    transform: rotate(1.5deg) translateY(1px);
-}
-.eq-tag:nth-child(3n) {
-    transform: rotate(-1.2deg) translateY(-1px);
-    padding-right: 1.2rem !important; /* Slightly varied width */
-}
-.eq-tag:nth-child(5n) {
-    transform: rotate(2deg);
+.ide-file:hover .ide-file-status {
+    opacity: 1;
+    transform: scale(1.2);
 }
 
-/* Tactile Micro-Interactions */
-.eq-tag:hover {
-    /* Press down, fix rotation, compress shadow */
-    transform: rotate(0deg) translateY(2px) !important;
-    box-shadow: 0px 0px 0 rgba(0,0,0,0.8) !important;
+/* ─── THE COMIC-BOOK ENGINEERING DESK ─── */
+.desk-item-wrapper, .m-skill-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 360px;
+    margin: 0 auto;
 }
+.desk-section-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--text-color);
+    padding-bottom: 0.4rem;
+    display: inline-block;
+    align-self: center;
+    text-align: center;
+}
+
+/* 1. Sticky Notes (Languages) */
+.desk-notes-container {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 640px) {
+    .desk-notes-container {
+        align-items: flex-start;
+    }
+    .desk-notes-container .desk-section-title {
+        align-self: flex-start;
+        text-align: left;
+    }
+}
+.desk-note {
+    background: #ffeb85;
+    border: 2px solid var(--text-color);
+    padding: 0.6rem 1rem;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.9);
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: fit-content;
+    min-width: 130px;
+}
+.desk-note::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 30px;
+    height: 12px;
+    background: rgba(255,255,255,0.7);
+    border: 1.5px solid var(--border-color);
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+}
+.desk-note:nth-child(2n) { transform: rotate(2deg); background: #a5f3c0; }
+.desk-note:nth-child(3n) { transform: rotate(-2deg); background: #ffde49; }
+.desk-note:nth-child(4n) { transform: rotate(1deg); background: #ffeb85; }
+.desk-note:nth-child(5n) { transform: rotate(-3deg); background: #a5f3c0; }
+
+.desk-note:hover {
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.9);
+    z-index: 10;
+}
+/* Randomized organic hover rotations so they don't all snap perfectly straight */
+.desk-note:nth-child(1):hover { transform: translateY(-4px) rotate(-2deg) scale(1.05) !important; }
+.desk-note:nth-child(2n):hover { transform: translateY(-4px) rotate(3deg) scale(1.05) !important; }
+.desk-note:nth-child(3n):hover { transform: translateY(-4px) rotate(-1.5deg) scale(1.05) !important; }
+.desk-note:nth-child(4n):hover { transform: translateY(-4px) rotate(2.5deg) scale(1.05) !important; }
+.desk-note:nth-child(5n):hover { transform: translateY(-4px) rotate(-3.5deg) scale(1.05) !important; }
+.note-icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.1));
+}
+.note-label {
+    font-family: var(--font-ui);
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+/* 2. Clipboard (Web Application) */
+.desk-clipboard {
+    position: relative;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 3.1rem;
+}
+.clipboard-board {
+    position: absolute;
+    top: 20px; left: 0; right: 0; bottom: 0;
+    background: #8b5a2b; /* Brown cardboard */
+    border: 2px solid var(--text-color);
+    border-radius: 6px;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.9);
+    z-index: 1;
+}
+.clipboard-clip {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 25px;
+    background: #ccc;
+    border: 2px solid var(--text-color);
+    border-radius: 4px;
+    box-shadow: inset 0 2px 0 #fff, 2px 2px 0 rgba(0,0,0,0.9);
+    z-index: 3;
+}
+.clipboard-paper {
+    position: relative;
+    z-index: 2;
+    background: #fdfdfd;
+    border: 2px solid var(--text-color);
+    margin: 25px 10px 10px 10px; /* Offset from board */
+    padding: 1rem 0.8rem;
+}
+/* Reduce IDE folder text size slightly to fit the paper */
+.clipboard-paper .ide-folder-header h3 {
+    font-size: 1rem;
+}
+.clipboard-paper .ide-file-name {
+    font-size: 0.85rem;
+}
+.clipboard-paper .ide-file-icon {
+    font-size: 1.1rem;
+}
+.clipboard-paper .ide-file {
+    padding: 0.3rem 0.5rem;
+}
+
+/* 3. External Drives (Databases) */
+.desk-drives-container {
+    padding: 0.5rem 0;
+}
+.drives-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.desk-drive {
+    background: #2a2a2a;
+    border: 2px solid var(--text-color);
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    position: relative;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.05), 3px 3px 0 rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+}
+.desk-drive::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 12px;
+    background: #555;
+    border-right: 2px solid var(--text-color);
+    box-shadow: inset -2px 0 0 rgba(0,0,0,0.5);
+}
+.desk-drive:hover {
+    transform: translateY(-3px);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.05), 5px 5px 0 rgba(0,0,0,0.9);
+}
+.drive-led {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #444;
+    border: 1px solid #111;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.desk-drive:hover .drive-led {
+    background: #ff3366;
+    box-shadow: 0 0 8px #ff3366;
+}
+.drive-icon {
+    font-size: 1.8rem;
+    margin-left: 0.5rem;
+    filter: drop-shadow(2px 2px 0 #000);
+}
+.drive-label {
+    font-family: var(--font-ui);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #eee;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* 4. Technical Manual (Tools) */
+.desk-manual {
+    background: #fdfdfd;
+    border: 2px solid var(--text-color);
+    border-radius: 4px 10px 10px 4px;
+    padding: 1.5rem;
+    padding-left: 2.25rem;
+    position: relative;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.9);
+}
+.manual-spiral {
+    position: absolute;
+    left: 0.4rem;
+    top: 0.75rem;
+    bottom: 0.75rem;
+    width: 12px;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 8px,
+        var(--text-color) 8px,
+        var(--text-color) 12px
+    );
+}
+.manual-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+.manual-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.85rem;
+}
+.manual-tool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 0.5rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s, border-style 0.2s;
+}
+.manual-tool i {
+    font-size: 1.8rem;
+    filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.1));
+}
+.manual-tool span {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--text-color);
+    text-align: center;
+}
+.manual-tool:hover {
+    background: var(--bg-color);
+    border-style: solid;
+}
+/* Randomized hover rotations for the drawn tools */
+.manual-tool:nth-child(odd):hover { transform: scale(1.05) rotate(2.5deg); }
+.manual-tool:nth-child(even):hover { transform: scale(1.05) rotate(-2deg); }
+.manual-tool:nth-child(3n):hover { transform: scale(1.05) rotate(1.5deg); }

@@ -18,7 +18,7 @@ const projects = [
         badge: 'ML / Python',
         desc: 'Machine Learning web app to predict NSE stock trends using Random Forest Classifier. Achieved 85% prediction accuracy.',
         url: 'https://github.com/Arshath-AD/Stock-Sentiment-Analyzer-Flask.git',
-        accent: 'var(--accent-yellow)',
+        accent: '#7cd6fb',
         ariaLabel: 'View AI Stock Predictor source code on GitHub (opens in new tab)',
     },
     {

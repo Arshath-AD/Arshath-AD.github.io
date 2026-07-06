@@ -146,6 +146,7 @@ const Navbar = () => {
                         <li><a href="#about">About</a></li>
                         <li><a href="#skills">Skills</a></li>
                         <li><a href="#projects">Projects</a></li>
+                        <li><a href="#extracurricular">Extra</a></li>
                         <li><a href="#contact">Contact</a></li>
                         <li>
                             <Magnetic>
@@ -181,6 +182,7 @@ const Navbar = () => {
                             <li><a href="#about" onClick={(e) => handleMobileNavClick(e, '#about')}>About</a></li>
                             <li><a href="#skills" onClick={(e) => handleMobileNavClick(e, '#skills')}>Skills</a></li>
                             <li><a href="#projects" onClick={(e) => handleMobileNavClick(e, '#projects')}>Projects</a></li>
+                            <li><a href="#extracurricular" onClick={(e) => handleMobileNavClick(e, '#extracurricular')}>Extra</a></li>
                             <li><a href="#contact" onClick={(e) => handleMobileNavClick(e, '#contact')}>Contact</a></li>
                             <li>
                                 <ResumeBtn btnRef={mobileResumeRef} />
