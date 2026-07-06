@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /* ─── Activity data ──────────────────────────────────────── */
@@ -11,7 +11,7 @@ const activities = [
         videoSrc: '/assets/videos/PoleVaulting.mp4',
         accent: 'var(--primary-color)',
         icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/>
                 <line x1="4" y1="20" x2="20" y2="20"/>
             </svg>
@@ -25,7 +25,7 @@ const activities = [
         videoSrc: '/assets/videos/TalkonautsSpeech.mp4',
         accent: 'var(--accent-yellow)',
         icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
         ),
@@ -38,32 +38,93 @@ const activities = [
         videoSrc: '/assets/videos/Toastmasters.mp4',
         accent: '#a5f3c0',
         icon: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
             </svg>
         ),
     },
 ];
 
-/* ─── Play icon SVG ──────────────────────────────────────── */
+/* ─── Play / Close icons ─────────────────────────────────── */
 const PlayIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <polygon points="5 3 19 12 5 21 5 3"/>
     </svg>
 );
 
 const CloseIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
         <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
     </svg>
 );
 
+/**
+ * LazyVideo — only starts loading when it enters the viewport.
+ * Uses IntersectionObserver to set the src attribute, so the browser
+ * doesn't fetch video data until it's actually needed.
+ * preload="none" prevents any buffering until the user interacts.
+ */
+const LazyVideo = ({ src, className, autoPlay = true, loop = true, muted = true, playsInline = true, style, videoRef: externalRef }) => {
+    const internalRef = useRef(null);
+    const videoRef = externalRef || internalRef;
+    const [isInView, setIsInView] = useState(false);
+
+    useEffect(() => {
+        const el = videoRef.current;
+        if (!el) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '200px' } // start loading 200px before entering viewport
+        );
+
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <video
+            ref={videoRef}
+            className={className}
+            style={style}
+            // Only set src once in viewport — prevents browser from fetching all videos on load
+            src={isInView ? src : undefined}
+            // preload="none" means: don't buffer anything until the user plays
+            // Once src is set via IntersectionObserver, autoplay kicks in
+            preload="none"
+            autoPlay={isInView && autoPlay}
+            loop={loop}
+            muted={muted}
+            playsInline={playsInline}
+            // aria: decorative background videos don't need description
+            aria-hidden="true"
+        />
+    );
+};
+
 /* ─── Mobile Extracurricular ─────────────────────────────── */
 const MobileExtracurricular = () => {
     const [preview, setPreview] = useState(null);
+    const modalVideoRef = useRef(null);
+
+    // When modal opens, load & play full video
+    useEffect(() => {
+        const video = modalVideoRef.current;
+        if (!video || !preview) return;
+        const act = activities.find(a => a.id === preview);
+        if (!act) return;
+        video.src = act.videoSrc;
+        video.load();
+        video.play().catch(() => {}); // Ignore autoplay policy errors
+    }, [preview]);
 
     return (
-        <section id="extracurricular" className="section m-extra">
+        <section id="extracurricular" className="section m-extra" aria-label="Life outside code">
             <motion.h2
                 className="section-title"
                 initial={{ opacity: 0, y: -30 }}
@@ -86,21 +147,21 @@ const MobileExtracurricular = () => {
                         transition={{ type: 'spring', bounce: 0.3, duration: 0.6, delay: i * 0.1 }}
                         whileTap={{ scale: 0.98 }}
                     >
-                        {/* Video thumbnail — inline, muted, loops silently */}
+                        {/* Video thumbnail — lazy loaded, muted, loops silently */}
                         <div className="m-extra-video-wrap">
-                            <video
+                            <LazyVideo
                                 src={act.videoSrc}
-                                autoPlay
-                                loop
-                                muted
-                                playsInline
                                 className="m-extra-video-thumb"
+                                autoPlay={true}
+                                loop={true}
+                                muted={true}
+                                playsInline={true}
                             />
                             {/* Watch button overlay */}
                             <button
                                 className="m-extra-play-btn"
                                 onClick={() => setPreview(act.id)}
-                                aria-label={`Watch ${act.title}`}
+                                aria-label={`Watch ${act.title} video`}
                             >
                                 <PlayIcon />
                                 Watch
@@ -110,7 +171,7 @@ const MobileExtracurricular = () => {
                         {/* Card content */}
                         <div className="m-extra-body">
                             <div className="m-extra-header">
-                                <span className="m-extra-icon">{act.icon}</span>
+                                <span className="m-extra-icon" aria-hidden="true">{act.icon}</span>
                                 <h3 className="m-extra-title">{act.title}</h3>
                             </div>
                             <p className="m-extra-desc">{act.desc}</p>
@@ -126,6 +187,9 @@ const MobileExtracurricular = () => {
                     return (
                         <motion.div
                             className="m-extra-modal-backdrop"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label={`${act.title} video player`}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
@@ -144,18 +208,21 @@ const MobileExtracurricular = () => {
                                 <button
                                     className="m-extra-close"
                                     onClick={() => setPreview(null)}
-                                    aria-label="Close"
+                                    aria-label="Close video"
                                 >
                                     <CloseIcon />
                                 </button>
 
+                                {/* Modal video: src set imperatively in useEffect above */}
                                 <video
-                                    src={act.videoSrc}
+                                    ref={modalVideoRef}
                                     autoPlay
                                     loop
                                     muted
                                     playsInline
+                                    preload="auto"
                                     className="m-extra-modal-video"
+                                    aria-label={`${act.title} - ${act.caption}`}
                                 />
 
                                 <div className="m-extra-modal-caption">
@@ -171,7 +238,7 @@ const MobileExtracurricular = () => {
     );
 };
 
-/* ─── Desktop Extracurricular (preserved exactly) ────────── */
+/* ─── Desktop Extracurricular ─────────────────────────────── */
 const DesktopExtracurricular = () => {
     const [preview, setPreview] = useState(null);
 
@@ -196,7 +263,11 @@ const DesktopExtracurricular = () => {
                 alignItems: 'center', justifyContent: 'center', zIndex: 10,
             }}
             aria-label="Close preview"
-        >✕</button>
+        >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
     );
 
     // Desktop requires a specific ordering (Pole in the middle)
@@ -206,6 +277,7 @@ const DesktopExtracurricular = () => {
         <motion.section
             id="extracurricular"
             className="section extracurricular"
+            aria-label="Life outside code"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
@@ -213,7 +285,6 @@ const DesktopExtracurricular = () => {
             <h2 className="section-title">Life Outside Code</h2>
             <motion.div className="container activities-grid" variants={containerVariants}>
                 {desktopActivities.map((activity, index) => {
-                    // Reapply the staggered grid logic: the middle card (index 1) gets popped up higher
                     const hoverPhysics = index === 1 
                         ? { y: -25, rotate: 1, boxShadow: '10px 10px 0px 0px #000' }
                         : { y: -5, rotate: index === 0 ? -1 : 1, boxShadow: '10px 10px 0px 0px #000' };
@@ -229,7 +300,7 @@ const DesktopExtracurricular = () => {
                             whileTap={{ scale: 0.98 }}
                         >
                             <div className="bento-header" style={{ marginBottom: '1rem' }}>
-                                {activity.icon}
+                                <span aria-hidden="true">{activity.icon}</span>
                                 <h3>{activity.title}</h3>
                             </div>
 
@@ -239,7 +310,15 @@ const DesktopExtracurricular = () => {
                                 style={{ position: 'relative', width: '100%', height: '11.25rem', overflow: 'hidden', borderRadius: '10px', marginBottom: '1.5rem', border: '2px solid var(--border-color)', background: '#000' }}
                             >
                                 {preview !== activity.id && (
-                                    <motion.video layoutId={`${activity.id}-video`} src={activity.videoSrc} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} whileHover={{ scale: 1.05 }} />
+                                    /* Lazy-loaded thumbnail video */
+                                    <LazyVideo
+                                        src={activity.videoSrc}
+                                        autoPlay={true}
+                                        loop={true}
+                                        muted={true}
+                                        playsInline={true}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
                                 )}
                             </div>
                             
@@ -253,12 +332,23 @@ const DesktopExtracurricular = () => {
                 {preview && (() => {
                     const activeItem = activities.find(a => a.id === preview);
                     return (
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                        <motion.div 
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label={`${activeItem.title} video preview`}
+                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                             style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(10px)', zIndex: 999999, display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: 'none' }}>
-                            <motion.div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'auto' }} onMouseLeave={() => setPreview(null)}>
+                            <motion.div 
+                                style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'auto' }} 
+                                onMouseLeave={() => setPreview(null)}>
                                 <CloseBtn />
                                 <div style={{ position: 'relative' }}>
-                                    <motion.video layoutId={`${preview}-video`} src={activeItem.videoSrc} autoPlay loop muted playsInline
+                                    {/* Full preview: eager-loaded since user intentionally hovered */}
+                                    <video
+                                        src={activeItem.videoSrc}
+                                        autoPlay loop muted playsInline
+                                        preload="auto"
+                                        aria-label={`${activeItem.title} - ${activeItem.caption}`}
                                         style={{ width: '80vw', maxHeight: '80vh', objectFit: 'cover', borderRadius: '20px', border: 'var(--border-width) solid var(--border-color)', boxShadow: '15px 15px 0px 0px #000', backgroundColor: 'var(--card-bg)', display: 'block' }} />
                                     <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
                                         style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', background: 'var(--card-bg)', color: 'var(--text-color)', border: '2px solid var(--border-color)', boxShadow: '4px 4px 0px 0px #000', padding: '0.4rem 1rem', borderRadius: '10px', fontSize: '0.9rem', fontWeight: 'bold', zIndex: 10, pointerEvents: 'none' }}>
@@ -280,11 +370,15 @@ const DesktopExtracurricular = () => {
 
 /* ─── Root ───────────────────────────────────────────────── */
 const Extracurricular = () => {
-    const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 640);
+    const [isMobile, setIsMobile] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.matchMedia('(max-width: 640px)').matches;
+    });
     useEffect(() => {
-        const onResize = () => setIsMobile(window.innerWidth <= 640);
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
+        const mq = window.matchMedia('(max-width: 640px)');
+        const onChange = (e) => setIsMobile(e.matches);
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
     }, []);
     return isMobile ? <MobileExtracurricular /> : <DesktopExtracurricular />;
 };

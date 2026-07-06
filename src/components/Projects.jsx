@@ -144,11 +144,15 @@ const DesktopProjects = () => (
 
 /* ─── Root ───────────────────────────────────────────────── */
 const Projects = () => {
-    const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 640);
+    const [isMobile, setIsMobile] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.matchMedia('(max-width: 640px)').matches;
+    });
     useEffect(() => {
-        const onResize = () => setIsMobile(window.innerWidth <= 640);
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
+        const mq = window.matchMedia('(max-width: 640px)');
+        const onChange = (e) => setIsMobile(e.matches);
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
     }, []);
     return isMobile ? <MobileProjects /> : <DesktopProjects />;
 };

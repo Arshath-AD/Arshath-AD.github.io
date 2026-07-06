@@ -11,6 +11,42 @@ const textVariants = {
     visible: { opacity: 1, y: 0, transition: { type: 'spring', bounce: 0.35, duration: 0.7 } }
 };
 
+/**
+ * Responsive image element for the avatar.
+ * Uses <picture> + WebP srcset for optimal format selection.
+ * - loading="eager" + fetchpriority="high" → browser prioritizes this as LCP.
+ * - decoding="sync" ensures it doesn't delay the first frame paint.
+ * - Explicit width/height prevents Cumulative Layout Shift (CLS).
+ */
+const AvatarPicture = ({ className, width, height, style, ...rest }) => (
+    <picture>
+        {/* WebP: served to all modern browsers (Chrome, Firefox, Edge, Safari 14+) */}
+        <source
+            type="image/webp"
+            srcSet="/assets/images/avatar-300.webp 300w, /assets/images/avatar-720.webp 720w"
+            sizes="(max-width: 640px) 136px, 352px"
+        />
+        {/* Fallback PNG for older browsers */}
+        <source
+            type="image/png"
+            srcSet="/assets/images/avatar-300.png 300w, /assets/images/avatar-720.png 720w"
+            sizes="(max-width: 640px) 136px, 352px"
+        />
+        <img
+            src="/assets/images/avatar-720.png"
+            alt="Arshath Ahamed – CS student and developer"
+            className={className}
+            width={width}
+            height={height}
+            loading="eager"
+            fetchpriority="high"
+            decoding="sync"
+            style={style}
+            {...rest}
+        />
+    </picture>
+);
+
 /* ─── Mobile Hero ─────────────────────────────────────────── */
 const MobileHero = () => (
     <header className="m-hero" aria-label="Hero section">
@@ -22,12 +58,10 @@ const MobileHero = () => (
         >
             {/* Avatar */}
             <motion.div variants={textVariants} className="m-avatar-wrap">
-                <img
-                    src="assets/images/avatar.png"
-                    alt="Arshath Ahamed – CS student and developer"
+                <AvatarPicture
                     className="m-avatar"
-                    width="200"
-                    height="200"
+                    width={200}
+                    height={200}
                 />
             </motion.div>
 
@@ -39,7 +73,7 @@ const MobileHero = () => (
             {/* Info box: role + tagline together */}
             <motion.div variants={textVariants} className="m-info-box">
                 <div className="m-role-badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{display:'inline',verticalAlign:'middle',marginRight:'5px'}}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{display:'inline',verticalAlign:'middle',marginRight:'5px'}}>
                         <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
                     </svg>
                     Computer Science Grad
@@ -80,8 +114,11 @@ const DesktopHero = () => {
                     <h1>
                         <motion.span variants={textVariants} style={{ display: 'inline-block' }}>Hi,&nbsp;</motion.span>
                         <motion.span variants={textVariants} style={{ display: 'inline-block' }}>I'm&nbsp;</motion.span>
-                        <motion.span variants={textVariants} style={{ display: 'inline-block' }} className="highlight">Arshath&nbsp;</motion.span>
-                        <motion.span variants={textVariants} style={{ display: 'inline-block' }} className="highlight">Ahamed!</motion.span>
+                        {/* No-wrap wrapper keeps "Arshath Ahamed!" on one line at all viewport widths */}
+                        <span style={{ whiteSpace: 'nowrap' }}>
+                            <motion.span variants={textVariants} style={{ display: 'inline-block' }} className="highlight">Arshath&nbsp;</motion.span>
+                            <motion.span variants={textVariants} style={{ display: 'inline-block' }} className="highlight">Ahamed!</motion.span>
+                        </span>
                     </h1>
                     <motion.p variants={textVariants} className="subtitle">Computer Science Grad</motion.p>
                     <motion.p variants={textVariants} className="hero-desc">Currently debugging my life. Every day is a breakpoint.</motion.p>
@@ -103,27 +140,20 @@ const DesktopHero = () => {
             </div>
 
             <div className="hero-visual">
-                {isScrolled && <div style={{ width: '100%', maxWidth: '24rem', aspectRatio: '1/1' }} />}
-                <motion.img
+                {/* Placeholder preserves layout space when avatar goes sticky, preventing CLS */}
+                {isScrolled && <div style={{ width: '100%', maxWidth: '24rem', aspectRatio: '1/1' }} aria-hidden="true" />}
+                <motion.div
                     layout
-                    src="assets/images/avatar.png"
-                    alt="Arshath Ahamed – CS student and developer"
-                    className="hero-img"
-                    width="352"
-                    height="352"
                     style={{
                         position:  isScrolled ? 'fixed'    : 'relative',
                         top:       isScrolled ? '0.5rem'   : 'auto',
                         right:     isScrolled ? '1.5rem'   : 'auto',
                         width:     isScrolled ? '8.5rem'   : '100%',
-                        height:    isScrolled ? '8.5rem'   : 'auto',
                         maxWidth:  isScrolled ? '8.5rem'   : '22rem',
                         zIndex:    isScrolled ? 9999       : 1,
-                        boxShadow: isScrolled ? '5px 5px 0px 0px #000' : '10px 10px 0px 0px #000',
-                        padding:   isScrolled ? '0.25rem'  : '0.625rem',
                         margin:    isScrolled ? 0          : 'auto',
                         cursor:    isScrolled ? 'pointer'  : 'default',
-                        objectFit: 'cover',
+                        willChange: 'transform',
                     }}
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -131,20 +161,41 @@ const DesktopHero = () => {
                     whileHover={{ scale: 1.05, rotate: 3 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => { if (isScrolled) window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                />
+                >
+                    <AvatarPicture
+                        className="hero-img"
+                        width={352}
+                        height={352}
+                        style={{
+                            width: '100%',
+                            height: isScrolled ? '8.5rem' : 'auto',
+                            maxWidth: isScrolled ? '8.5rem' : '22rem',
+                            boxShadow: isScrolled ? '5px 5px 0px 0px #000' : '10px 10px 0px 0px #000',
+                            padding:   isScrolled ? '0.25rem'  : '0.625rem',
+                            objectFit: 'cover',
+                        }}
+                    />
+                </motion.div>
             </div>
         </header>
     );
 };
 
 /* ─── Root: pick the right hero based on viewport ────────── */
+// Use matchMedia instead of window.innerWidth for reliable mobile detection
+// matchMedia uses CSS breakpoints which are consistent with stylesheet media queries
 const Hero = () => {
-    const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 640);
+    const [isMobile, setIsMobile] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.matchMedia('(max-width: 640px)').matches;
+    });
 
     useEffect(() => {
-        const onResize = () => setIsMobile(window.innerWidth <= 640);
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
+        const mq = window.matchMedia('(max-width: 640px)');
+        const onChange = (e) => setIsMobile(e.matches);
+        // Use addEventListener (spec-compliant) over deprecated addListener
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
     }, []);
 
     return isMobile ? <MobileHero /> : <DesktopHero />;

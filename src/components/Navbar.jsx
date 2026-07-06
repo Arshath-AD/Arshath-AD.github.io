@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, AnimatePresence } from 'framer-motion';
 import Magnetic from './Magnetic';
+import ResumeModal from './ResumeModal';
 
 const Navbar = () => {
     const { scrollYProgress } = useScroll();
     const [menuOpen, setMenuOpen] = useState(false);
+    const [resumeOpen, setResumeOpen] = useState(false);
+    
+    // Ref to each Resume button so focus can be restored after modal closes
+    const desktopResumeRef = useRef(null);
+    const mobileResumeRef = useRef(null);
+    const activeTriggerRef = useRef(null);
     const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 640);
 
     useEffect(() => {
@@ -20,6 +27,27 @@ const Navbar = () => {
         }, 150);
     };
 
+    const openResume = (triggerRef) => {
+        activeTriggerRef.current = triggerRef.current;
+        closeMenu();
+        setResumeOpen(true);
+    };
+
+    const closeResume = () => setResumeOpen(false);
+
+    /* Resume button — shared visual, different refs for desktop / mobile */
+    const ResumeBtn = ({ btnRef, className }) => (
+        <button
+            ref={btnRef}
+            className={className || "btn-nav"}
+            onClick={() => openResume(btnRef)}
+            aria-label="View resume"
+            aria-haspopup="dialog"
+        >
+            Resume
+        </button>
+    );
+
     const logo = (
         <div
             className="logo"
@@ -30,6 +58,7 @@ const Navbar = () => {
     );
 
     return (
+        <>
         <nav className="navbar" aria-label="Main navigation">
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                 {/* Logo — Magnetic on desktop only */}
@@ -40,14 +69,10 @@ const Navbar = () => {
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#projects">Projects</a></li>
-                    <li>
-                        <a href="https://drive.google.com/file/d/1jkqFZhWYYwAo4vZenrM0FPBlGj3ZLvBG/view?usp=drive_link" target="_blank" rel="noreferrer" aria-label="Open Arshath Ahamed's resume (opens in new tab)">
-                            Resume
-                        </a>
-                    </li>
+                    <li><a href="#contact">Contact</a></li>
                     <li>
                         <Magnetic>
-                            <a href="#contact" className="btn-nav">Contact</a>
+                            <ResumeBtn btnRef={desktopResumeRef} />
                         </Magnetic>
                     </li>
                 </ul>
@@ -79,12 +104,10 @@ const Navbar = () => {
                         <li><a href="#about" onClick={closeMenu}>About</a></li>
                         <li><a href="#skills" onClick={closeMenu}>Skills</a></li>
                         <li><a href="#projects" onClick={closeMenu}>Projects</a></li>
+                        <li><a href="#contact" onClick={closeMenu}>Contact</a></li>
                         <li>
-                            <a href="https://drive.google.com/file/d/1jkqFZhWYYwAo4vZenrM0FPBlGj3ZLvBG/view?usp=drive_link" target="_blank" rel="noreferrer" onClick={closeMenu} aria-label="Open Arshath Ahamed's resume (opens in new tab)">
-                                Resume
-                            </a>
+                            <ResumeBtn btnRef={mobileResumeRef} />
                         </li>
-                        <li><a href="#contact" onClick={closeMenu} className="btn-nav">Contact</a></li>
                     </motion.ul>
                 )}
             </AnimatePresence>
@@ -94,6 +117,12 @@ const Navbar = () => {
                 style={{ scaleX: scrollYProgress }}
             />
         </nav>
+        <ResumeModal
+            isOpen={resumeOpen}
+            onClose={closeResume}
+            triggerRef={activeTriggerRef}
+        />
+        </>
     );
 };
 

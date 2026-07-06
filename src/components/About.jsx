@@ -3,17 +3,17 @@ import { motion } from 'framer-motion';
 
 /* ─── Mobile About ────────────────────────────────────────── */
 const CodeIcon = () => (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
     </svg>
 );
 const GrowthIcon = () => (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" />
     </svg>
 );
 const AthleticsIcon = () => (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <circle cx="12" cy="8" r="2" /><path d="M12 10v5l-3 3" /><path d="M12 15l3 3" /><path d="M9 13H6" /><path d="M18 13h-3" />
     </svg>
 );
@@ -43,7 +43,7 @@ const mobileCards = [
 ];
 
 const MobileAbout = () => (
-    <section id="about" className="section m-about">
+    <section id="about" className="section m-about" aria-label="About me">
         <motion.h2
             className="section-title"
             initial={{ opacity: 0, y: -30 }}
@@ -66,7 +66,7 @@ const MobileAbout = () => (
                     transition={{ type: 'spring', bounce: 0.35, duration: 0.65, delay: i * 0.12 }}
                     whileTap={{ scale: 0.97 }}
                 >
-                    <span className="m-about-icon"><card.Icon /></span>
+                    <span className="m-about-icon" aria-hidden="true"><card.Icon /></span>
                     <p className="m-about-text">{card.text}</p>
                 </motion.div>
             ))}
@@ -159,11 +159,15 @@ const DesktopAbout = () => (
 
 /* ─── Root: swap by viewport ─────────────────────────────── */
 const About = () => {
-    const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 640);
+    const [isMobile, setIsMobile] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.matchMedia('(max-width: 640px)').matches;
+    });
     useEffect(() => {
-        const onResize = () => setIsMobile(window.innerWidth <= 640);
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
+        const mq = window.matchMedia('(max-width: 640px)');
+        const onChange = (e) => setIsMobile(e.matches);
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
     }, []);
     return isMobile ? <MobileAbout /> : <DesktopAbout />;
 };

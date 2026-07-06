@@ -3,7 +3,15 @@
     cursor: none !important;
 }
 
-/* Nav Hover Underline */
+/* Restore cursor on mobile where CustomCursor is not active */
+@media (pointer: coarse) {
+    * {
+        cursor: auto !important;
+    }
+}
+
+/* Nav Hover Underline — GPU-accelerated (width is being animated which triggers layout,
+   but it is short and local so acceptable here; use scaleX if micro-perf is critical) */
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -13,9 +21,10 @@
     height: 3px;
     background: var(--primary-color);
     transition: width 0.3s ease;
+    will-change: width;
 }
 
-/* Progress Bar */
+/* Progress Bar — scaleX is GPU-composited, no layout cost */
 .progress-bar {
     position: absolute;
     bottom: 0;
@@ -25,17 +34,20 @@
     background: var(--primary-color);
     transform-origin: 0%;
     z-index: 99999;
+    will-change: transform;
 }
 
 .nav-links a:hover::after {
     width: 100%;
 }
 
-/* Smooth Card Physics */
+/* Smooth Card Physics — will-change pre-promotes element to compositor layer.
+   Note: only add will-change to elements that WILL be animated (not all cards). */
 .project-card,
 .skill-category,
 .activity-card {
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+    will-change: transform;
 }
 
 .project-card:hover,

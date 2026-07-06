@@ -7,7 +7,7 @@ const skillGroups = [
         title: 'Languages',
         accent: 'var(--primary-color)',
         icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
             </svg>
         ),
@@ -21,7 +21,7 @@ const skillGroups = [
         title: 'Web',
         accent: 'var(--accent-yellow)',
         icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
             </svg>
@@ -38,7 +38,7 @@ const skillGroups = [
         title: 'Tools',
         accent: '#a5f3c0',
         icon: (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
             </svg>
         ),
@@ -63,7 +63,7 @@ const tagVariants = {
 
 /* ─── Mobile Skills ───────────────────────────────────────── */
 const MobileSkills = () => (
-    <section id="skills" className="section m-skills">
+    <section id="skills" className="section m-skills" aria-label="My toolkit">
         <motion.h2
             className="section-title"
             initial={{ opacity: 0, y: -30 }}
@@ -171,11 +171,15 @@ const DesktopSkills = () => (
 
 /* ─── Root ───────────────────────────────────────────────── */
 const Skills = () => {
-    const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 640);
+    const [isMobile, setIsMobile] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.matchMedia('(max-width: 640px)').matches;
+    });
     useEffect(() => {
-        const onResize = () => setIsMobile(window.innerWidth <= 640);
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
+        const mq = window.matchMedia('(max-width: 640px)');
+        const onChange = (e) => setIsMobile(e.matches);
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
     }, []);
     return isMobile ? <MobileSkills /> : <DesktopSkills />;
 };

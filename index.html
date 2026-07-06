@@ -5,18 +5,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ── Favicon ───────────────────────────────────────── -->
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="apple-touch-icon" href="/favicon.png" />
-  <link rel="shortcut icon" href="/favicon.png" />
+  <!-- ── Favicon (optimized) ──────────────────────────────── -->
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="icon" type="image/webp" href="/favicon-192.webp" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.webp" />
+  <link rel="shortcut icon" href="/favicon-32.png" />
 
   <!-- google verification -->
   <meta name="google-site-verification" content="5okoThV85Bvfb4lo-SUHTmdvb3wwxEOBe4tgooRpeSY" />
 
   <!-- ── Primary SEO ─────────────────────────────────────── -->
-  <title>Arshath AD | CS Student & Developer Portfolio</title>
+  <title>Arshath AD | CS Student &amp; Developer Portfolio</title>
   <meta name="description"
-    content="Hi, I'm Arshath AD — a B.Sc IT & Data Science student and developer. I build web apps with Python, Django, Flask, React and more. Check out my projects and get in touch!" />
+    content="Hi, I'm Arshath AD — a B.Sc IT &amp; Data Science student and developer. I build web apps with Python, Django, Flask, React and more. Check out my projects and get in touch!" />
   <meta name="keywords"
     content="Arshath AD, portfolio, web developer, Python developer, Django, Flask, React, B.Sc IT, data science, student developer, full stack" />
   <meta name="author" content="Arshath AD" />
@@ -26,22 +27,23 @@
   <!-- ── Open Graph (Facebook / LinkedIn) ───────────────── -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://arshath-ad.github.io/" />
-  <meta property="og:title" content="Arshath AD | CS Student & Developer Portfolio" />
+  <meta property="og:title" content="Arshath AD | CS Student &amp; Developer Portfolio" />
   <meta property="og:description"
-    content="B.Sc IT & Data Science student who builds real-world apps with Python, Django, Flask, and React. Browse my projects and let's connect!" />
-  <meta property="og:image" content="https://arshath-ad.github.io/assets/images/avatar.png" />
-  <meta property="og:image:alt" content="Arshath AD – Developer & Athlete" />
+    content="B.Sc IT &amp; Data Science student who builds real-world apps with Python, Django, Flask, and React. Browse my projects and let's connect!" />
+  <meta property="og:image" content="https://arshath-ad.github.io/assets/images/avatar-720.webp" />
+  <meta property="og:image:alt" content="Arshath AD – Developer &amp; Athlete" />
   <meta property="og:site_name" content="Arshath AD Portfolio" />
   <meta property="og:locale" content="en_IN" />
 
   <!-- ── Twitter / X Card ───────────────────────────────── -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@arshath_ad" />
   <meta name="twitter:url" content="https://arshath-ad.github.io/" />
-  <meta name="twitter:title" content="Arshath AD | CS Student & Developer Portfolio" />
+  <meta name="twitter:title" content="Arshath AD | CS Student &amp; Developer Portfolio" />
   <meta name="twitter:description"
-    content="B.Sc IT & Data Science student who builds real-world apps with Python, Django, Flask, and React. Browse my projects and let's connect!" />
-  <meta name="twitter:image" content="https://arshath-ad.github.io/assets/images/avatar.png" />
-  <meta name="twitter:image:alt" content="Arshath AD – Developer & Athlete" />
+    content="B.Sc IT &amp; Data Science student who builds real-world apps with Python, Django, Flask, and React. Browse my projects and let's connect!" />
+  <meta name="twitter:image" content="https://arshath-ad.github.io/assets/images/avatar-720.webp" />
+  <meta name="twitter:image:alt" content="Arshath AD – Developer &amp; Athlete" />
 
   <!-- ── Theme / PWA ─────────────────────────────────────── -->
   <meta name="theme-color" content="#0d0d0d" />
@@ -53,7 +55,7 @@
       "@type": "Person",
       "name": "Arshath Ahamed",
       "url": "https://arshath-ad.github.io/",
-      "image": "https://arshath-ad.github.io/assets/images/avatar.png",
+      "image": "https://arshath-ad.github.io/assets/images/avatar-720.webp",
       "jobTitle": "Student Developer",
       "description": "B.Sc IT & Data Science undergraduate who builds real-world web applications using Python, Django, Flask, and React.",
       "email": "arshathad2006@gmail.com",
@@ -68,18 +70,53 @@
     }
     </script>
 
-  <!-- ── Performance: preconnect to external origins ─────── -->
+  <!-- ── Critical: preconnect to external origins ────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
-  <!-- ── Google Fonts ────────────────────────────────────── -->
+  <!-- ── LCP Hero Image Preload (highest priority) ────────── -->
+  <!-- Tells browser to start fetching the WebP hero image immediately,
+       before React even mounts, eliminating the LCP bottleneck. -->
+  <link rel="preload" as="image" type="image/webp"
+    href="/assets/images/avatar-720.webp"
+    imagesrcset="/assets/images/avatar-300.webp 300w, /assets/images/avatar-720.webp 720w"
+    imagesizes="(max-width: 640px) 136px, 352px"
+    fetchpriority="high" />
+
+  <!-- ── Google Fonts: non-render-blocking via print trick ── -->
+  <!-- Load fonts as print stylesheet (doesn't block render),
+       then switch to 'all' once loaded. display=swap prevents FOIT. -->
   <link
     href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;600&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <!-- Noscript fallback for users with JS disabled -->
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;600&display=swap"
+      rel="stylesheet" />
+  </noscript>
 
-  <!-- ── Devicon ─────────────────────────────────────────── -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  <!-- ── Devicon: loaded async (non-critical) ──────────────── -->
+  <!-- Loaded after LCP via JS to avoid blocking initial render -->
+  <script>
+    // Defer Devicon load until after page is interactive
+    // This prevents it from blocking LCP and FCP
+    function loadDevicon() {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css';
+      document.head.appendChild(link);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        requestIdleCallback ? requestIdleCallback(loadDevicon) : setTimeout(loadDevicon, 100);
+      });
+    } else {
+      requestIdleCallback ? requestIdleCallback(loadDevicon) : setTimeout(loadDevicon, 100);
+    }
+  </script>
 </head>
 
 <body>
