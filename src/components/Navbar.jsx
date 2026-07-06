@@ -7,7 +7,7 @@ const Navbar = () => {
     const { scrollYProgress } = useScroll();
     const [menuOpen, setMenuOpen] = useState(false);
     const [resumeOpen, setResumeOpen] = useState(false);
-    
+
     // Ref to each Resume button so focus can be restored after modal closes
     const desktopResumeRef = useRef(null);
     const mobileResumeRef = useRef(null);
@@ -48,80 +48,137 @@ const Navbar = () => {
         </button>
     );
 
+    const [logoHovered, setLogoHovered] = useState(false);
+
     const logo = (
         <div
             className="logo"
             onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); closeMenu(); }}
+            onMouseEnter={() => setLogoHovered(true)}
+            onMouseLeave={() => setLogoHovered(false)}
+            style={{
+                position: 'relative',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                overflow: 'hidden' // Masks the sliding text cleanly
+            }}
         >
-            Arshath Ahamed M
+            {/* Invisible spacer forces the container to be exactly the right width to fit the longest text without hardcoded pixel values */}
+            <span style={{
+                visibility: 'hidden',
+                whiteSpace: 'nowrap',
+                fontFamily: "'Permanent Marker', cursive",
+                textTransform: 'none',
+                fontSize: '1.4rem'
+            }}>
+                Hehe I'm also an Athlete
+            </span>
+
+            <AnimatePresence>
+                {!logoHovered ? (
+                    <motion.span
+                        key="default"
+                        initial={{ y: 40 }}
+                        animate={{ y: 0 }}
+                        exit={{ y: -40 }}
+                        transition={{ type: 'spring', stiffness: 600, damping: 25 }}
+                        style={{ position: 'absolute', left: 0, whiteSpace: 'nowrap', display: 'block' }}
+                    >
+                        Arshath Ahamed M
+                    </motion.span>
+                ) : (
+                    <motion.span
+                        key="secret"
+                        initial={{ y: 40 }}
+                        animate={{ y: 0 }}
+                        exit={{ y: -40 }}
+                        transition={{ type: 'spring', stiffness: 600, damping: 25 }}
+                        style={{
+                            position: 'absolute',
+                            left: 0,
+                            color: 'var(--accent-purple)',
+                            whiteSpace: 'nowrap',
+                            display: 'block',
+                            fontFamily: "'Permanent Marker', cursive",
+                            textTransform: 'none',
+                            fontSize: '1.4rem', // Slightly smaller than the 2rem Bangers logo
+                            marginTop: '0.2rem', // Optical alignment tweak
+                            WebkitTextStroke: '1px #111' // Comic book black outline
+                        }}
+                    >
+                        Hehe I'm also an Athlete
+                    </motion.span>
+                )}
+            </AnimatePresence>
         </div>
     );
 
     return (
         <>
-        <nav className="navbar" aria-label="Main navigation">
-            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                {/* Logo — Magnetic on desktop only */}
-                {isMobile ? logo : <Magnetic>{logo}</Magnetic>}
+            <nav className="navbar" aria-label="Main navigation">
+                <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                    {/* Logo — Magnetic on desktop only */}
+                    {isMobile ? logo : <Magnetic>{logo}</Magnetic>}
 
-                {/* Desktop nav links */}
-                <ul className="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li>
-                        <Magnetic>
-                            <ResumeBtn btnRef={desktopResumeRef} />
-                        </Magnetic>
-                    </li>
-                </ul>
-
-                {/* Hamburger button — mobile only */}
-                <button
-                    className={`hamburger${menuOpen ? ' open' : ''}`}
-                    onClick={() => setMenuOpen(o => !o)}
-                    aria-label="Toggle menu"
-                    aria-expanded={menuOpen}
-                >
-                    <span />
-                    <span />
-                    <span />
-                </button>
-            </div>
-
-            {/* Mobile drawer */}
-            <AnimatePresence>
-                {menuOpen && (
-                    <motion.ul
-                        className="mobile-nav"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ type: 'tween', duration: 0.22 }}
-                        style={{ overflow: 'hidden' }}
-                    >
-                        <li><a href="#about" onClick={closeMenu}>About</a></li>
-                        <li><a href="#skills" onClick={closeMenu}>Skills</a></li>
-                        <li><a href="#projects" onClick={closeMenu}>Projects</a></li>
-                        <li><a href="#contact" onClick={closeMenu}>Contact</a></li>
+                    {/* Desktop nav links */}
+                    <ul className="nav-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
                         <li>
-                            <ResumeBtn btnRef={mobileResumeRef} />
+                            <Magnetic>
+                                <ResumeBtn btnRef={desktopResumeRef} />
+                            </Magnetic>
                         </li>
-                    </motion.ul>
-                )}
-            </AnimatePresence>
+                    </ul>
 
-            <motion.div
-                className="progress-bar"
-                style={{ scaleX: scrollYProgress }}
+                    {/* Hamburger button — mobile only */}
+                    <button
+                        className={`hamburger${menuOpen ? ' open' : ''}`}
+                        onClick={() => setMenuOpen(o => !o)}
+                        aria-label="Toggle menu"
+                        aria-expanded={menuOpen}
+                    >
+                        <span />
+                        <span />
+                        <span />
+                    </button>
+                </div>
+
+                {/* Mobile drawer */}
+                <AnimatePresence>
+                    {menuOpen && (
+                        <motion.ul
+                            className="mobile-nav"
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ type: 'tween', duration: 0.22 }}
+                            style={{ overflow: 'hidden' }}
+                        >
+                            <li><a href="#about" onClick={closeMenu}>About</a></li>
+                            <li><a href="#skills" onClick={closeMenu}>Skills</a></li>
+                            <li><a href="#projects" onClick={closeMenu}>Projects</a></li>
+                            <li><a href="#contact" onClick={closeMenu}>Contact</a></li>
+                            <li>
+                                <ResumeBtn btnRef={mobileResumeRef} />
+                            </li>
+                        </motion.ul>
+                    )}
+                </AnimatePresence>
+
+                <motion.div
+                    className="progress-bar"
+                    style={{ scaleX: scrollYProgress }}
+                />
+            </nav>
+            <ResumeModal
+                isOpen={resumeOpen}
+                onClose={closeResume}
+                triggerRef={activeTriggerRef}
             />
-        </nav>
-        <ResumeModal
-            isOpen={resumeOpen}
-            onClose={closeResume}
-            triggerRef={activeTriggerRef}
-        />
         </>
     );
 };

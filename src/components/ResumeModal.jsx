@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -72,12 +72,14 @@ const IconExternalLink = () => (
 
 /* ── Component ───────────────────────────────────────── */
 const ResumeModal = ({ isOpen, onClose, triggerRef }) => {
+    const [isLoading, setIsLoading] = useState(true);
     const modalRef = useRef(null);
     const firstFocusRef = useRef(null);
 
     /* ── Body scroll lock + navbar pointer-events kill ── */
     useEffect(() => {
         if (!isOpen) return;
+        setIsLoading(true);
         const prev = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
         document.body.classList.add('rm-open');
@@ -199,12 +201,28 @@ const ResumeModal = ({ isOpen, onClose, triggerRef }) => {
 
                         {/* ── PDF iframe fills remaining space ── */}
                         <div className="rm-iframe-wrap">
+                            <AnimatePresence>
+                                {isLoading && (
+                                    <motion.div 
+                                        className="rm-loader"
+                                        initial={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.15 }} // Sped up exit
+                                    >
+                                        <div className="comic-spinner" />
+                                        <span className="rm-loading-text">BUFFERING...</span>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
                             <iframe
                                 src={RESUME_URLS.preview}
                                 className="rm-iframe"
                                 title="Arshath Ahamed – Resume"
                                 allow="autoplay"
                                 loading="lazy"
+                                onLoad={() => setIsLoading(false)}
+                                style={{ opacity: isLoading ? 0 : 1 }} // Removed artificial transition delay
                             />
                         </div>
                     </motion.div>

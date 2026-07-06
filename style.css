@@ -1,19 +1,19 @@
 :root {
     /* Custom Theme */
-    --bg-color: #FAF9F6;
-    /* Warm off-white */
+    --bg-color: #F3F0E6;
+    /* Richer cream off-white */
     --text-color: #111111;
     --border-color: #111111;
     --border-width: 3px;
 
-    --primary-color: #FFC61A;
-    /* Comic Yellow */
-    --secondary-color: #B794F4;
-    /* Comic purple */
-    --accent-yellow: #FFC61A;
-    --accent-purple: #B794F4;
-    --accent-green: #A5F3C0;
-    /* Mint Green */
+    --primary-color: #ffd61e;
+    /* Classic comic-book yellow */
+    --secondary-color: #9B51E0;
+    /* Strong Comic Purple */
+    --accent-yellow: #ffde49;
+    --accent-purple: #9B51E0;
+    --accent-green: #00B862;
+    /* Vibrant Comic Green */
 
     --shadow: 5px 5px 0px 0px #111111;
     --shadow-active: 2px 2px 0px 0px #111111;
@@ -143,18 +143,21 @@ a {
 }
 
 .btn-nav {
-    background-color: #cdb4db;
+    background-color: var(--accent-purple);
     padding: 0.5rem 1.5rem;
     border: var(--border-width) solid var(--border-color);
     box-shadow: var(--shadow);
-    color: #000;
+    color: #fff;
+    font-weight: 700;
+    -webkit-text-stroke: 0.25px #111;
+    /* Comic text outline */
     transition: all 0.2s;
 }
 
 .btn-nav:hover {
     transform: translate(3px, 3px);
     box-shadow: var(--shadow-active);
-    color: #000 !important;
+    color: #fff !important;
 }
 
 /* Hamburger button — hidden on desktop */
@@ -254,10 +257,10 @@ a {
     gap: 2rem;
     position: relative;
     background-color: var(--primary-color);
-    background-image: radial-gradient(rgba(17,17,17,0.15) 2.5px, transparent 2.5px);
+    background-image: radial-gradient(rgba(17, 17, 17, 0.15) 2.5px, transparent 2.5px);
     background-size: 24px 24px;
     border-bottom: var(--border-width) solid var(--border-color);
-    box-shadow: 0 12px 0 rgba(17,17,17,0.15);
+    box-shadow: 0 12px 0 rgba(17, 17, 17, 0.15);
 }
 
 .hero-content {
@@ -268,6 +271,387 @@ a {
     /* Inherits glassmorphism, border, shadow, and rounded corners from .bento-card */
     padding: 3rem;
     max-width: 54rem;
+    position: relative;
+    /* ensure absolute children are contained */
+}
+
+/* --- Hero Card Decorations --- */
+.hero-decorations {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+/* Registration marks / Crosshairs - Very Subtle */
+.decor-crosshair {
+    position: absolute;
+    color: var(--text-color);
+    opacity: 0.4;
+    width: 14px;
+    height: 14px;
+}
+
+.decor-crosshair.top-left {
+    top: 1.5rem;
+    left: 1.5rem;
+}
+
+.decor-crosshair.bottom-right {
+    bottom: 1.5rem;
+    right: 1.5rem;
+}
+
+/* Tiny hand-drawn star/sparkle - Small and out of the way */
+.decor-sparkle {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    width: 24px;
+    height: 24px;
+    transform: rotate(15deg);
+    opacity: 1;
+    z-index: 0;
+}
+
+/* Tiny Squiggly line */
+.decor-squiggle {
+    position: absolute;
+    bottom: 3.5rem;
+    right: 3rem;
+    width: 40px;
+    color: var(--text-color);
+    opacity: 0.6;
+    transform: rotate(-5deg);
+}
+
+/* Action Lines */
+.decor-action-lines {
+    position: absolute;
+    top: 5rem;
+    right: 8rem;
+    width: 20px;
+    height: 20px;
+    color: var(--text-color);
+    opacity: 0.4;
+    transform: rotate(15deg);
+}
+
+/* Tiny Lightning Bolt */
+.decor-bolt {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 45%;
+    width: 14px;
+    height: 20px;
+    opacity: 1;
+    /* Solid yellow */
+    transform: rotate(10deg);
+}
+
+/* Tiny Plus Grid */
+.decor-plus-grid {
+    position: absolute;
+    top: 4.5rem;
+    left: 2rem;
+    width: 20px;
+    height: 20px;
+    color: var(--text-color);
+    opacity: 0.3;
+}
+
+/* Floating Hollow Circles */
+.decor-circles {
+    position: absolute;
+    top: 2.5rem;
+    right: 45%;
+    width: 30px;
+    height: 30px;
+    color: var(--text-color);
+    opacity: 0.5;
+    transform: rotate(-10deg);
+}
+
+/* Hand-drawn Arrow */
+.decor-arrow {
+    position: absolute;
+    bottom: 7rem;
+    left: 19rem;
+    width: 35px;
+    height: 35px;
+    color: var(--text-color);
+    opacity: 0.6;
+    transform: rotate(5deg);
+}
+
+/* Zig-Zag Line */
+.decor-zigzag {
+    position: absolute;
+    top: 7.5rem;
+    left: 3rem;
+    width: 36px;
+    height: 14px;
+    color: var(--text-color);
+    opacity: 0.4;
+    transform: rotate(-15deg);
+}
+
+/* Exclamation Bubble */
+.decor-exclamation {
+    position: absolute;
+    bottom: 5rem;
+    right: 6rem;
+    width: 24px;
+    height: 24px;
+    opacity: 1;
+    /* Solid green */
+    transform: rotate(10deg);
+}
+
+/* Center Swoosh */
+.decor-swoosh {
+    position: absolute;
+    top: 7.5rem;
+    left: 48%;
+    width: 60px;
+    height: 15px;
+    color: var(--text-color);
+    transform: translateX(-50%) rotate(5deg);
+    opacity: 0.6;
+}
+
+/* Center Star Cluster */
+.decor-stars {
+    position: absolute;
+    top: 6.5rem;
+    left: 62%;
+    width: 40px;
+    height: 30px;
+    opacity: 1;
+    transform: rotate(-10deg);
+}
+
+/* Small, subtle halftone dot patch */
+.decor-dots {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    width: 60px;
+    height: 60px;
+    background-image: radial-gradient(rgba(17, 17, 17, 0.3) 2px, transparent 2px);
+    background-size: 10px 10px;
+    border-radius: 50%;
+}
+
+/* --- Decoration Hover Animations --- */
+.decor-crosshair,
+.decor-sparkle,
+.decor-squiggle,
+.decor-action-lines,
+.decor-bolt,
+.decor-plus-grid,
+.decor-circles,
+.decor-arrow,
+.decor-zigzag,
+.decor-exclamation,
+.decor-swoosh,
+.decor-stars {
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s;
+}
+
+.hero-text-box:hover .decor-sparkle {
+    transform: rotate(45deg) scale(1.15);
+}
+
+.hero-text-box:hover .decor-squiggle {
+    transform: translateX(5px) rotate(-10deg);
+}
+
+.hero-text-box:hover .decor-action-lines {
+    transform: translate(4px, -4px) rotate(15deg);
+}
+
+.hero-text-box:hover .decor-bolt {
+    transform: translateY(-6px) rotate(20deg);
+}
+
+.hero-text-box:hover .decor-circles {
+    transform: translateY(-8px) rotate(0deg);
+}
+
+.hero-text-box:hover .decor-arrow {
+    transform: translate(4px, 4px) rotate(15deg);
+}
+
+.hero-text-box:hover .decor-zigzag {
+    transform: translateX(6px) rotate(0deg);
+}
+
+.hero-text-box:hover .decor-exclamation {
+    transform: translateY(-5px) rotate(25deg);
+}
+
+.hero-text-box:hover .decor-plus-grid {
+    transform: rotate(45deg);
+}
+
+.hero-text-box:hover .decor-crosshair.top-left {
+    transform: translate(-3px, -3px) rotate(90deg);
+}
+
+.hero-text-box:hover .decor-crosshair.bottom-right {
+    transform: translate(3px, 3px) rotate(90deg);
+}
+
+.hero-text-box:hover .decor-swoosh {
+    transform: translateX(-50%) translateY(10px) rotate(15deg);
+    opacity: 0.8;
+}
+
+.hero-text-box:hover .decor-stars {
+    transform: translateY(-5px) rotate(10deg) scale(1.2);
+}
+
+/* Ensure text stays above decorations */
+.hero-text-box h1,
+.hero-text-box .subtitle,
+.hero-text-box .hero-desc,
+.hero-text-box .hero-btns {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Avatar Comic Clouds --- */
+.comic-cloud-wrapper {
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+    /* Let hover pass through to avatar */
+}
+
+/* Positions around the 352x352 avatar */
+.comic-cloud-wrapper.top-left {
+    top: -1rem;
+    left: -7rem;
+    transform: rotate(-4deg);
+}
+
+.comic-cloud-wrapper.top-right {
+    top: 0rem;
+    right: -7rem;
+    transform: rotate(3deg);
+}
+
+.comic-cloud-wrapper.bottom-left {
+    bottom: 2rem;
+    left: -8rem;
+    transform: rotate(5deg);
+}
+
+.comic-cloud-wrapper.bottom-right {
+    bottom: -1rem;
+    right: -5rem;
+    transform: rotate(-3deg);
+}
+
+.comic-cloud-inner {
+    position: relative;
+    padding: 1.25rem 1.75rem;
+    /* Reduced back to a compact size since SVG is now fixed */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* Apply the comic block shadow to the entire SVG and tail */
+    filter: drop-shadow(4px 4px 0px #111);
+}
+
+.cloud-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: visible;
+    /* Prevents non-scaling-stroke from clipping at edges */
+}
+
+.cloud-text {
+    position: relative;
+    z-index: 1;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 0.85rem;
+    font-weight: 400;
+    /* Permanent Marker is already bold by nature */
+    color: #111;
+    white-space: normal;
+    max-width: 150px;
+    line-height: 1.4;
+}
+
+/* Thought Bubble Tails (using CSS circles) */
+.cloud-tail {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    /* Use standard stroke width to match SVG */
+    border: 3.5px solid #fff;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.cloud-tail::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border: 3.5px solid #fff;
+    border-radius: 50%;
+}
+
+/* Tail positioning pointing towards center */
+.tail-br {
+    bottom: 0px;
+    right: 40px;
+}
+
+.tail-br::after {
+    bottom: -12px;
+    right: -8px;
+}
+
+.tail-bl {
+    bottom: 0px;
+    left: 40px;
+}
+
+.tail-bl::after {
+    bottom: -12px;
+    left: -8px;
+}
+
+.tail-tr {
+    top: 4px;
+    right: 40px;
+}
+
+.tail-tr::after {
+    top: -12px;
+    right: -8px;
+}
+
+.tail-tl {
+    top: 4px;
+    left: 40px;
+}
+
+.tail-tl::after {
+    top: -12px;
+    left: -8px;
 }
 
 .hero h1 {
@@ -278,7 +662,8 @@ a {
 
 .highlight {
     color: var(--primary-color);
-    text-shadow: 3px 3px 0 #111111;
+    -webkit-text-stroke: 1px #111111;
+    text-shadow: 4px 4px 0 #111111;
 }
 
 .subtitle {
@@ -758,10 +1143,10 @@ footer {
         min-height: 0;
         text-align: center;
         background-color: var(--primary-color);
-        background-image: radial-gradient(rgba(17,17,17,0.15) 2.5px, transparent 2.5px);
+        background-image: radial-gradient(rgba(17, 17, 17, 0.15) 2.5px, transparent 2.5px);
         background-size: 24px 24px;
         border-bottom: var(--border-width) solid var(--border-color);
-        box-shadow: 0 12px 0 rgba(17,17,17,0.15);
+        box-shadow: 0 12px 0 rgba(17, 17, 17, 0.15);
     }
 
     .m-hero-inner {
@@ -804,7 +1189,7 @@ footer {
         margin: 0;
         color: var(--text-color);
     }
-    
+
     .m-hero-name .highlight {
         color: #FFFFFF;
     }
@@ -862,11 +1247,11 @@ footer {
         font-size: 1.25rem;
         padding: 0.75rem 0.5rem;
     }
-    
+
     .m-hero-btns .btn-primary {
         background-color: #FFFFFF;
     }
-    
+
     .m-hero-btns .btn-secondary {
         background-color: var(--secondary-color);
     }
@@ -1442,8 +1827,10 @@ button.btn-nav {
     /* match surrounding nav text size */
     line-height: inherit;
     /* Visual resets so the browser chrome doesn't show through */
-    background-color: #cdb4db;
-    color: #000;
+    background-color: var(--accent-purple);
+    color: #fff;
+    -webkit-text-stroke: 0.30px #111;
+    /* Keep comic outline consistent */
     cursor: pointer;
     border: var(--border-width) solid var(--border-color);
     /* keep comic border */
@@ -1510,7 +1897,7 @@ body.rm-open .navbar {
     /* ~40 % smaller than the old 1rem+1rem padding */
     min-height: 48px;
     border-bottom: 3px solid #000;
-    background: var(--primary-color, #F19ED2);
+    background: #ffd61e;
     flex-shrink: 0;
     gap: 0.75rem;
 }
@@ -1608,6 +1995,50 @@ body.rm-open .navbar {
     background: #fff;
     position: relative;
     /* zero padding — let the PDF breathe on its own */
+}
+
+/* ── Loader Overlay ──────────────────────────────────── */
+.rm-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-color); /* Matches page background */
+    z-index: 10;
+    gap: 1.5rem;
+}
+
+.comic-spinner {
+    width: 64px;
+    height: 64px;
+    border: 6px solid var(--border-color);
+    border-top-color: var(--accent-yellow);
+    border-right-color: var(--accent-purple);
+    border-bottom-color: var(--accent-green);
+    border-left-color: var(--text-color);
+    border-radius: 50%;
+    animation: comicSpin 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+@keyframes comicSpin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.15); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.rm-loading-text {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--text-color);
+    letter-spacing: 2px;
+    animation: comicPulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes comicPulse {
+    from { opacity: 0.5; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1.05); }
 }
 
 .rm-iframe {
