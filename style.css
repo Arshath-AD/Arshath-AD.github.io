@@ -1,29 +1,29 @@
 :root {
     /* Custom Theme */
-    --bg-color: #CCF2EB;
-    /* Lighter Teal/Cyan */
-    --text-color: #1a1a1a;
-    --border-color: #1a1a1a;
+    --bg-color: #FAF9F6;
+    /* Warm off-white */
+    --text-color: #111111;
+    --border-color: #111111;
     --border-width: 3px;
 
-    --primary-color: #F19ED2;
-    /* Pink */
-    --secondary-color: #E8C5E5;
-    /* Light Pink/Lavender */
-    --accent-yellow: #fff59d;
-    --accent-purple: #E8C5E5;
-    /* Reusing Light Pink */
-    --accent-green: #a5d6a7;
+    --primary-color: #FFC61A;
+    /* Comic Yellow */
+    --secondary-color: #B794F4;
+    /* Comic purple */
+    --accent-yellow: #FFC61A;
+    --accent-purple: #B794F4;
+    --accent-green: #A5F3C0;
+    /* Mint Green */
 
-    --shadow: 5px 5px 0px 0px #000000;
-    --shadow-active: 2px 2px 0px 0px #000000;
+    --shadow: 5px 5px 0px 0px #111111;
+    --shadow-active: 2px 2px 0px 0px #111111;
 
     --font-heading: 'Bangers', cursive;
     --font-body: 'Comic Neue', cursive;
     --font-ui: 'Fredoka', sans-serif;
 
-    --card-bg: rgba(255, 255, 255, 0.2);
-    /* Much more transparent */
+    --card-bg: #FFFFFF;
+    /* Pure white opaque cards */
 }
 
 * {
@@ -66,7 +66,7 @@ body::before {
     left: -60px;
     width: calc(100vw + 120px);
     height: calc(100vh + 120px);
-    background-image: radial-gradient(#000 1px, transparent 1px);
+    background-image: radial-gradient(rgba(17, 17, 17, 0.12) 2px, transparent 2px);
     background-size: 30px 30px;
     z-index: -1;
     animation: bg-scroll 4s linear infinite;
@@ -105,7 +105,7 @@ a {
     justify-content: center;
     align-items: center;
     padding: 1.25rem 0;
-    background-color: #F7F9F2;
+    background-color: var(--bg-color);
     border-bottom: var(--border-width) solid var(--border-color);
     position: sticky;
     top: 0;
@@ -252,6 +252,16 @@ a {
     justify-content: space-between;
     padding: 2rem 5%;
     gap: 2rem;
+    position: relative;
+    background-color: var(--primary-color);
+    background-image: radial-gradient(rgba(17,17,17,0.15) 2.5px, transparent 2.5px);
+    background-size: 24px 24px;
+    border-bottom: var(--border-width) solid var(--border-color);
+    box-shadow: 0 12px 0 rgba(17,17,17,0.15);
+}
+
+.hero-content {
+    position: relative;
 }
 
 .hero-text-box {
@@ -268,7 +278,7 @@ a {
 
 .highlight {
     color: var(--primary-color);
-    text-shadow: 2px 2px 0 #000;
+    text-shadow: 3px 3px 0 #111111;
 }
 
 .subtitle {
@@ -299,13 +309,12 @@ a {
 
 .btn-primary {
     background-color: var(--primary-color);
-    color: #fff;
-    text-shadow: 2px 2px 0 #000;
+    color: var(--text-color);
 }
 
 .btn-secondary {
-    background-color: var(--accent-yellow);
-    color: #000;
+    background-color: #FFFFFF;
+    color: var(--text-color);
 }
 
 
@@ -316,6 +325,7 @@ a {
     flex: 1;
     display: flex;
     justify-content: center;
+    position: relative;
 }
 
 .hero-img {
@@ -426,7 +436,7 @@ a {
 
 .bento-2 {
     grid-column: span 1;
-    border-top: 6px solid var(--accent-yellow);
+    border-top: 6px solid var(--accent-purple);
 }
 
 .bento-3 {
@@ -740,15 +750,22 @@ footer {
        MOBILE HERO  (.m-hero)
     ══════════════════════════════════ */
     .m-hero {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 2.5rem 1.4rem 3rem;
+        padding: 3rem 1.4rem;
         min-height: 0;
         text-align: center;
+        background-color: var(--primary-color);
+        background-image: radial-gradient(rgba(17,17,17,0.15) 2.5px, transparent 2.5px);
+        background-size: 24px 24px;
+        border-bottom: var(--border-width) solid var(--border-color);
+        box-shadow: 0 12px 0 rgba(17,17,17,0.15);
     }
 
     .m-hero-inner {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -785,6 +802,11 @@ footer {
         letter-spacing: 1.5px;
         text-transform: uppercase;
         margin: 0;
+        color: var(--text-color);
+    }
+    
+    .m-hero-name .highlight {
+        color: #FFFFFF;
     }
 
     /* Info box wrapping role badge + tagline */
@@ -839,6 +861,14 @@ footer {
         text-align: center;
         font-size: 1.25rem;
         padding: 0.75rem 0.5rem;
+    }
+    
+    .m-hero-btns .btn-primary {
+        background-color: #FFFFFF;
+    }
+    
+    .m-hero-btns .btn-secondary {
+        background-color: var(--secondary-color);
     }
 
     /* ══════════════════════════════════
