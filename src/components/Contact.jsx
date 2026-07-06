@@ -3,18 +3,40 @@ import { motion } from 'framer-motion';
 import Magnetic from './Magnetic';
 
 /* ─── SVG icons ──────────────────────────────────────────── */
+
+/*
+ * EmailIcon — Official modern Gmail "M" logo.
+ * Built using overlapping thick strokes with rounded caps to perfectly match
+ * the soft, vibrant aesthetic of the requested logo.
+ */
 const EmailIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        {/* Right leg - Green */}
+        <path d="M19 12v6" stroke="#34A853" strokeWidth="4.5" strokeLinecap="round" />
+        {/* Left leg - Blue */}
+        <path d="M5 12v6" stroke="#4285F4" strokeWidth="4.5" strokeLinecap="round" />
+        
+        {/* Top Right connection - Yellow */}
+        <path d="M19 8v4" stroke="#FBBC04" strokeWidth="4.5" strokeLinecap="round" />
+        {/* Right diagonal - Yellow */}
+        <path d="M12 14.5l7-6.5" stroke="#FBBC04" strokeWidth="4.5" strokeLinecap="round" />
+        
+        {/* Top Left connection - Red */}
+        <path d="M5 8v4" stroke="#EA4335" strokeWidth="4.5" strokeLinecap="round" />
+        {/* Left diagonal - Red (overlaps yellow at the center) */}
+        <path d="M5 8l7 6.5" stroke="#EA4335" strokeWidth="4.5" strokeLinecap="round" />
     </svg>
 );
+
+
+
 const LinkedInIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
         <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
     </svg>
 );
+
 const GitHubIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
@@ -26,21 +48,30 @@ const links = [
         label: 'Email',
         href: 'mailto:arshathad2006@gmail.com',
         Icon: EmailIcon,
-        accent: '#E8453C',       /* Gmail Red — softened from #EA4335 */
+        accent: '#FFFFFF',         /* Gmail: white background */
+        textColor: '#202124',      /* Google dark text */
+        hoverBg: '#FCE8E6',        /* Light Google-red tint on hover */
+        iconBg: '#FFFFFF',         /* Mobile icon bg: white */
         ariaLabel: 'Send an email to Arshath Ahamed',
     },
     {
         label: 'LinkedIn',
         href: 'https://linkedin.com/in/arshath-ahamed-45b34830a',
         Icon: LinkedInIcon,
-        accent: '#0A66C2',       /* LinkedIn official blue */
+        accent: '#0A66C2',         /* LinkedIn official blue */
+        textColor: '#FFFFFF',
+        hoverBg: '#0A7BEB',        /* Slightly brighter on hover */
+        iconBg: '#0A66C2',
         ariaLabel: "View Arshath Ahamed's LinkedIn profile (opens in new tab)",
     },
     {
         label: 'GitHub',
         href: 'https://github.com/Arshath-AD',
         Icon: GitHubIcon,
-        accent: '#2D333B',       /* GitHub Dark — slightly softer than #24292F */
+        accent: '#24292F',         /* GitHub official dark */
+        textColor: '#FFFFFF',
+        hoverBg: '#30363D',
+        iconBg: '#24292F',
         ariaLabel: "View Arshath Ahamed's GitHub profile (opens in new tab)",
     },
 ];
@@ -78,7 +109,11 @@ const MobileContact = () => (
                         rel="noreferrer"
                         aria-label={link.ariaLabel}
                         className="m-contact-btn"
-                        style={{ '--link-accent': link.accent }}
+                        style={{
+                            '--link-accent': link.accent,
+                            '--link-text': link.textColor,
+                            '--link-icon-bg': link.iconBg,
+                        }}
                         initial={{ opacity: 0, x: -40 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, amount: 0.4 }}
@@ -121,15 +156,27 @@ const DesktopContact = () => (
                     <div className="social-links">
                         {links.map((link) => (
                             <Magnetic key={link.label}>
-                                <motion.a 
-                                    href={link.href} 
-                                    target="_blank" 
+                                <motion.a
+                                    href={link.href}
+                                    target="_blank"
                                     rel="noreferrer"
                                     aria-label={link.ariaLabel}
                                     className="social-btn"
-                                    style={{ background: link.accent }}
-                                    whileHover={{ scale: 1.05, y: -4, x: -4, boxShadow: '8px 8px 0px 0px #000' }} 
+                                    style={{
+                                        background: link.accent,
+                                        color: link.textColor,
+                                    }}
+                                    whileHover={{
+                                        scale: 1.05, y: -4, x: -4,
+                                        boxShadow: '8px 8px 0px 0px #000',
+                                        background: link.hoverBg,
+                                    }}
                                     whileTap={{ scale: 0.95 }}
+                                    transition={{
+                                        default: { type: 'spring', stiffness: 300, damping: 20 },
+                                        background: { duration: 0.22, ease: 'easeOut' },
+                                        boxShadow: { duration: 0.18, ease: 'easeOut' },
+                                    }}
                                 >
                                     <link.Icon />
                                     <span>{link.label}</span>

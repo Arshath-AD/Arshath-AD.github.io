@@ -625,7 +625,8 @@ a {
 }
 
 .social-btn {
-    color: #000;
+    /* color is injected per-link via JSX style prop */
+    color: inherit;
     border: var(--border-width) solid var(--border-color);
     padding: 0.8rem 1.5rem;
     font-family: var(--font-heading);
@@ -635,7 +636,9 @@ a {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    /* hover physics are handled by framer-motion whileHover */
+    text-decoration: none;
+    /* transition for background color on hover (Framer handles transform/shadow) */
+    transition: background 0.15s ease;
 }
 
 .fun-fact {
@@ -1306,14 +1309,14 @@ footer {
         align-items: center;
         gap: 1rem;
         padding: 0.95rem 1.1rem;
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        /* Brand bg from --link-accent; falls back to card-bg */
+        background: var(--link-accent, var(--card-bg));
         border: 1.5px solid var(--border-color);
-        border-left: 4px solid var(--link-accent, var(--primary-color));
+        border-left: 4px solid var(--border-color);
         box-shadow: 4px 4px 0 #000;
         border-radius: 10px;
-        color: var(--text-color);
+        /* Brand text color */
+        color: var(--link-text, var(--text-color));
         text-decoration: none;
         transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
@@ -1329,7 +1332,8 @@ footer {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--link-accent, var(--primary-color));
+        /* Per-brand icon badge background */
+        background: var(--link-icon-bg, var(--link-accent, var(--primary-color)));
         border: 1.5px solid var(--border-color);
         border-radius: 8px;
         flex-shrink: 0;
