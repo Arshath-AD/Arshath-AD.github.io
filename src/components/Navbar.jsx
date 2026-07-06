@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, AnimatePresence } from 'framer-motion';
+import { useLenis } from '@studio-freight/react-lenis';
 import Magnetic from './Magnetic';
 import ResumeModal from './ResumeModal';
 
 const Navbar = () => {
     const { scrollYProgress } = useScroll();
+    const lenis = useLenis();
     const [menuOpen, setMenuOpen] = useState(false);
     const [resumeOpen, setResumeOpen] = useState(false);
 
@@ -21,10 +23,21 @@ const Navbar = () => {
     }, []);
 
     const closeMenu = () => {
-        // Delay closing to let anchor clicks bubble up to the global smooth scroll listener
-        setTimeout(() => {
-            setMenuOpen(false);
-        }, 150);
+        setMenuOpen(false);
+    };
+
+    const handleMobileNavClick = (e, targetId) => {
+        e.preventDefault();
+        setMenuOpen(false); // Close menu instantly
+        
+        if (lenis) {
+            lenis.scrollTo(targetId);
+        } else {
+            const element = document.querySelector(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     };
 
     const openResume = (triggerRef) => {
@@ -53,9 +66,16 @@ const Navbar = () => {
     const logo = (
         <div
             className="logo"
-            onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); closeMenu(); }}
-            onMouseEnter={() => setLogoHovered(true)}
-            onMouseLeave={() => setLogoHovered(false)}
+            onClick={() => {
+                if (lenis) {
+                    lenis.scrollTo(0);
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                setMenuOpen(false);
+            }}
+            onMouseEnter={() => !isMobile && setLogoHovered(true)}
+            onMouseLeave={() => !isMobile && setLogoHovered(false)}
             style={{
                 position: 'relative',
                 cursor: 'pointer',
@@ -158,10 +178,10 @@ const Navbar = () => {
                             transition={{ type: 'tween', duration: 0.22 }}
                             style={{ overflow: 'hidden' }}
                         >
-                            <li><a href="#about" onClick={closeMenu}>About</a></li>
-                            <li><a href="#skills" onClick={closeMenu}>Skills</a></li>
-                            <li><a href="#projects" onClick={closeMenu}>Projects</a></li>
-                            <li><a href="#contact" onClick={closeMenu}>Contact</a></li>
+                            <li><a href="#about" onClick={(e) => handleMobileNavClick(e, '#about')}>About</a></li>
+                            <li><a href="#skills" onClick={(e) => handleMobileNavClick(e, '#skills')}>Skills</a></li>
+                            <li><a href="#projects" onClick={(e) => handleMobileNavClick(e, '#projects')}>Projects</a></li>
+                            <li><a href="#contact" onClick={(e) => handleMobileNavClick(e, '#contact')}>Contact</a></li>
                             <li>
                                 <ResumeBtn btnRef={mobileResumeRef} />
                             </li>

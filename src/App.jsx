@@ -8,6 +8,7 @@ import Projects from './components/Projects';
 import Extracurricular from './components/Extracurricular';
 import Contact from './components/Contact';
 import CustomCursor from './components/CustomCursor';
+import MobileSidebar from './components/MobileSidebar';
 import './animations.css';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
     return (
         <ReactLenis root options={{ lerp: 0.08, smoothWheel: true }}>
             <CustomCursor />
+            <MobileSidebar />
             <Navbar />
             <Hero />
             <About />

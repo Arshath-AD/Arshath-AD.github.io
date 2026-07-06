@@ -94,16 +94,89 @@ const LazyVideo = ({ src, className, autoPlay = true, loop = true, muted = true,
             style={style}
             // Only set src once in viewport — prevents browser from fetching all videos on load
             src={isInView ? src : undefined}
-            // preload="none" means: don't buffer anything until the user plays
-            // Once src is set via IntersectionObserver, autoplay kicks in
-            preload="none"
-            autoPlay={isInView && autoPlay}
+            // Using preload="metadata" ensures only the first frame is fetched.
+            // Since these are just static thumbnails that the user clicks, this prevents the mobile
+            // browser from choking on 3 concurrent aggressive background downloads.
+            preload="metadata"
             loop={loop}
             muted={muted}
             playsInline={playsInline}
             // aria: decorative background videos don't need description
             aria-hidden="true"
         />
+    );
+};
+
+const ThemedModalVideo = ({ src, label, className, style, refCallback }) => {
+    const internalRef = useRef(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    const togglePlay = (e) => {
+        e.stopPropagation();
+        if (internalRef.current) {
+            if (internalRef.current.paused) {
+                internalRef.current.play();
+                setIsPlaying(true);
+            } else {
+                internalRef.current.pause();
+                setIsPlaying(false);
+            }
+        }
+    };
+
+    return (
+        <div style={{ position: 'relative', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', borderRadius: style?.borderRadius, overflow: 'hidden' }}>
+            <video
+                ref={(node) => {
+                    internalRef.current = node;
+                    if (refCallback) refCallback(node);
+                }}
+                src={src}
+                className={className}
+                style={{ ...style, cursor: 'pointer' }}
+                loop
+                muted
+                playsInline
+                preload="auto"
+                aria-label={label}
+                onClick={togglePlay}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+            />
+            
+            <AnimatePresence>
+                {!isPlaying && (
+                    <motion.button
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.5, opacity: 0 }}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={togglePlay}
+                        style={{
+                            position: 'absolute',
+                            background: 'var(--primary-color)',
+                            border: '4px solid #111',
+                            borderRadius: '50%',
+                            width: '80px',
+                            height: '80px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '6px 6px 0 #111',
+                            cursor: 'pointer',
+                            zIndex: 10,
+                            paddingLeft: '6px' // optical center for play triangle
+                        }}
+                        aria-label="Play video"
+                    >
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="#111">
+                            <path d="M5 3L19 12L5 21V3Z" stroke="#111" strokeWidth="2" strokeLinejoin="round" />
+                        </svg>
+                    </motion.button>
+                )}
+            </AnimatePresence>
+        </div>
     );
 };
 
@@ -213,17 +286,16 @@ const MobileExtracurricular = () => {
                                     <CloseIcon />
                                 </button>
 
-                                {/* Modal video: src set imperatively in useEffect above */}
-                                <video
-                                    ref={modalVideoRef}
-                                    autoPlay
-                                    loop
-                                    muted
-                                    playsInline
-                                    preload="auto"
-                                    className="m-extra-modal-video"
-                                    aria-label={`${act.title} - ${act.caption}`}
-                                />
+                                {/* Modal video with Custom Theme Play Button */}
+                                <div style={{ flex: 1, width: '100%', minHeight: 0, overflow: 'hidden' }}>
+                                    <ThemedModalVideo
+                                        refCallback={(node) => modalVideoRef.current = node}
+                                        src={act.videoSrc}
+                                        className="m-extra-modal-video"
+                                        label={`${act.title} - ${act.caption}`}
+                                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                                    />
+                                </div>
 
                                 <div className="m-extra-modal-caption">
                                     <span className="m-extra-modal-title">{act.title}</span>
@@ -344,12 +416,11 @@ const DesktopExtracurricular = () => {
                                 <CloseBtn />
                                 <div style={{ position: 'relative' }}>
                                     {/* Full preview: eager-loaded since user intentionally hovered */}
-                                    <video
+                                    <ThemedModalVideo
                                         src={activeItem.videoSrc}
-                                        autoPlay loop muted playsInline
-                                        preload="auto"
-                                        aria-label={`${activeItem.title} - ${activeItem.caption}`}
-                                        style={{ width: '80vw', maxHeight: '80vh', objectFit: 'cover', borderRadius: '20px', border: 'var(--border-width) solid var(--border-color)', boxShadow: '15px 15px 0px 0px #000', backgroundColor: 'var(--card-bg)', display: 'block' }} />
+                                        label={`${activeItem.title} - ${activeItem.caption}`}
+                                        style={{ width: '80vw', maxHeight: '80vh', objectFit: 'cover', borderRadius: '20px', border: 'var(--border-width) solid var(--border-color)', boxShadow: '15px 15px 0px 0px #000', backgroundColor: 'var(--card-bg)', display: 'block' }} 
+                                    />
                                     <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
                                         style={{ position: 'absolute', bottom: '1.5rem', right: '1.5rem', background: 'var(--card-bg)', color: 'var(--text-color)', border: '2px solid var(--border-color)', boxShadow: '4px 4px 0px 0px #000', padding: '0.4rem 1rem', borderRadius: '10px', fontSize: '0.9rem', fontWeight: 'bold', zIndex: 10, pointerEvents: 'none' }}>
                                         Take hover elsewhere to exit preview
