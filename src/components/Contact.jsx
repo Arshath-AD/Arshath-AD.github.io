@@ -1,214 +1,175 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import Magnetic from './Magnetic';
 
 /* ─── SVG icons ──────────────────────────────────────────── */
-
-/*
- * EmailIcon — Official modern Gmail "M" logo.
- * Built using overlapping thick strokes with rounded caps to perfectly match
- * the soft, vibrant aesthetic of the requested logo.
- */
 const EmailIcon = () => (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        {/* Right leg - Green */}
         <path d="M19 12v6" stroke="#34A853" strokeWidth="4.5" strokeLinecap="round" />
-        {/* Left leg - Blue */}
         <path d="M5 12v6" stroke="#4285F4" strokeWidth="4.5" strokeLinecap="round" />
-        
-        {/* Top Right connection - Yellow */}
         <path d="M19 8v4" stroke="#FBBC04" strokeWidth="4.5" strokeLinecap="round" />
-        {/* Right diagonal - Yellow */}
         <path d="M12 14.5l7-6.5" stroke="#FBBC04" strokeWidth="4.5" strokeLinecap="round" />
-        
-        {/* Top Left connection - Red */}
         <path d="M5 8v4" stroke="#EA4335" strokeWidth="4.5" strokeLinecap="round" />
-        {/* Left diagonal - Red (overlaps yellow at the center) */}
         <path d="M5 8l7 6.5" stroke="#EA4335" strokeWidth="4.5" strokeLinecap="round" />
     </svg>
 );
 
-
-
 const LinkedInIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-        <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+        <rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" />
     </svg>
 );
 
 const GitHubIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+    </svg>
+);
+
+const TornEdge = () => (
+    <svg viewBox="0 0 100 12" preserveAspectRatio="none" style={{ position: 'absolute', bottom: '-2px', left: 0, width: '100%', height: '14px', zIndex: 1 }}>
+        <path d="M0 12 L 5 2 L 15 12 L 25 2 L 35 12 L 45 2 L 55 12 L 65 2 L 75 12 L 85 2 L 95 12 L 100 2 V 12 Z" fill="#fcfcfc" />
+        <path d="M0 12 L 5 2 L 15 12 L 25 2 L 35 12 L 45 2 L 55 12 L 65 2 L 75 12 L 85 2 L 95 12 L 100 2" fill="none" stroke="#111" strokeWidth="4" vectorEffect="non-scaling-stroke" strokeLinejoin="miter" />
     </svg>
 );
 
 const links = [
     {
-        label: 'Email',
+        label: 'Send Email',
+        title: 'EMAIL',
+        desc: "Let's talk about ideas, opportunities, or just collaborating on something cool.",
         href: 'mailto:arshathad2006@gmail.com',
         Icon: EmailIcon,
-        accent: '#FFFFFF',         /* Gmail: white background */
-        textColor: '#202124',      /* Google dark text */
-        hoverBg: '#FCE8E6',        /* Light Google-red tint on hover */
-        iconBg: '#FFFFFF',         /* Mobile icon bg: white */
+        cardColor: '#ef4444', // Red Header
+        accent: '#ffffff', // White button
+        textColor: '#202124', // Dark text
+        hoverBg: '#fce8e6', // Soft red hover
         ariaLabel: 'Send an email to Arshath Ahamed',
     },
     {
-        label: 'LinkedIn',
+        label: 'View Profile',
+        title: 'LINKEDIN',
+        desc: "Connect with me professionally and let's build meaningful connections.",
         href: 'https://linkedin.com/in/arshath-ahamed-45b34830a',
         Icon: LinkedInIcon,
-        accent: '#0A66C2',         /* LinkedIn official blue */
+        cardColor: '#3b82f6', // Blue Header
+        accent: '#2563eb',
         textColor: '#FFFFFF',
-        hoverBg: '#0A7BEB',        /* Slightly brighter on hover */
-        iconBg: '#0A66C2',
+        hoverBg: '#1d4ed8',
         ariaLabel: "View Arshath Ahamed's LinkedIn profile (opens in new tab)",
     },
     {
-        label: 'GitHub',
+        label: 'View Profile',
+        title: 'GITHUB',
+        desc: 'Check out my code, projects, and contributions on GitHub.',
         href: 'https://github.com/Arshath-AD',
         Icon: GitHubIcon,
-        accent: '#24292F',         /* GitHub official dark */
+        cardColor: '#1f2937', // Black Header
+        accent: '#111827',
         textColor: '#FFFFFF',
-        hoverBg: '#30363D',
-        iconBg: '#24292F',
+        hoverBg: '#000000',
         ariaLabel: "View Arshath Ahamed's GitHub profile (opens in new tab)",
     },
 ];
 
-/* ─── Mobile Contact ─────────────────────────────────────── */
-const MobileContact = () => (
-    <>
-        <section id="contact" className="section m-contact" aria-label="Contact section">
-            <motion.h2
-                className="section-title"
-                initial={{ opacity: 0, y: -30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ type: 'spring', bounce: 0.4, duration: 0.7 }}
-            >
-                Let's Connect!
-            </motion.h2>
-
-            <motion.p
-                className="m-contact-sub"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ delay: 0.1, duration: 0.5 }}
-            >
-                Feel free to reach out for collaborations or just to say hi!
-            </motion.p>
-
-            <div className="m-contact-links">
-                {links.map((link, i) => (
-                    <motion.a
-                        key={link.label}
-                        href={link.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={link.ariaLabel}
-                        className="m-contact-btn"
-                        style={{
-                            '--link-accent': link.accent,
-                            '--link-text': link.textColor,
-                            '--link-icon-bg': link.iconBg,
-                        }}
-                        initial={{ opacity: 0, x: -40 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, amount: 0.4 }}
-                        transition={{ type: 'spring', bounce: 0.35, duration: 0.55, delay: i * 0.1 }}
-                        whileTap={{ scale: 0.96, x: 3, y: 3 }}
-                    >
-                        <span className="m-contact-btn-icon"><link.Icon /></span>
-                        <span className="m-contact-btn-label">{link.label}</span>
-                        {/* Decorative arrow — hidden from screen readers */}
-                        <svg className="m-contact-btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-                        </svg>
-                    </motion.a>
-                ))}
-            </div>
-        </section>
-
-        <footer className="m-footer">
-            <p>&copy; 2026 Arshath Ahamed.</p>
-        </footer>
-    </>
-);
-
-/* ─── Desktop Contact ────────────────────────── */
-const DesktopContact = () => (
+/* ─── Unified Scrapbook Contact ────────────────────────── */
+const Contact = () => (
     <>
         <motion.section
             id="contact"
-            className="section contact"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5 }}
+            className="section scrapbook-contact-wrapper"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.6 }}
         >
-            {/* Section title is the h2. Inner card title should be h3 to maintain heading hierarchy. */}
-            <h2 className="section-title">Contact</h2>
-            <div className="container">
-                <div className="contact-box bento-card">
-                    <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '2rem', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '2rem' }}>Let's Connect!</h3>
-                    <div className="social-links">
-                        {links.map((link) => (
-                            <Magnetic key={link.label}>
-                                <motion.a
-                                    href={link.href}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    aria-label={link.ariaLabel}
-                                    className="social-btn"
-                                    style={{
-                                        background: link.accent,
-                                        color: link.textColor,
-                                    }}
-                                    whileHover={{
-                                        scale: 1.05, y: -4, x: -4,
-                                        boxShadow: '8px 8px 0px 0px #000',
-                                        background: link.hoverBg,
-                                    }}
-                                    whileTap={{ scale: 0.95 }}
-                                    transition={{
-                                        default: { type: 'spring', stiffness: 300, damping: 20 },
-                                        background: { duration: 0.22, ease: 'easeOut' },
-                                        boxShadow: { duration: 0.18, ease: 'easeOut' },
-                                    }}
-                                >
-                                    <link.Icon />
-                                    <span>{link.label}</span>
-                                </motion.a>
-                            </Magnetic>
-                        ))}
-                    </div>
-                    <div className="fun-fact">
-                        <p>Feel free to reach out for collaborations or just to say hi!</p>
-                    </div>
+            <div className="scrapbook-contact-board">
+                {/* Decorative Elements */}
+                <div className="contact-push-pin"></div>
+                <div className="contact-paper-fold"></div>
+                <div className="contact-tape-top-right"></div>
+                
+                {/* Title Banner (Using Global Section Title) */}
+                <h2 className="section-title" style={{ left: 'auto', transform: 'rotate(-1.5deg)', marginBottom: '3.5rem', zIndex: 10 }}>
+                    CONTACT
+                </h2>
+
+                {/* Inner Header */}
+                <div className="contact-lets-connect">
+                    <h3>LET'S CONNECT!</h3>
+                    <div className="contact-underline"></div>
+                </div>
+
+                {/* Cards Container */}
+                <div className="contact-cards-container">
+                    {links.map((link, index) => (
+                        <motion.div
+                            key={link.title}
+                            className="contact-card"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.2 }}
+                            transition={{ delay: index * 0.15, type: 'spring', bounce: 0.4 }}
+                        >
+                            <div className="card-top-bg" style={{ '--card-color': link.cardColor }}>
+                                <TornEdge />
+                            </div>
+
+                            <div className="card-icon-wrapper">
+                                <link.Icon />
+                            </div>
+
+                            <h4>{link.title}</h4>
+                            <div className="card-dashed-line" style={{ '--card-color': link.cardColor }}></div>
+                            <p>{link.desc}</p>
+
+                            <div className="contact-btn-wrapper">
+                                {/* THE BUTTON: Kept entirely untouched and exact as requested */}
+                                <Magnetic>
+                                    <motion.a
+                                        href={link.href}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        aria-label={link.ariaLabel}
+                                        className="social-btn"
+                                        style={{
+                                            background: link.accent,
+                                            color: link.textColor,
+                                        }}
+                                        whileHover={{
+                                            scale: 1.05, y: -4, x: -4,
+                                            boxShadow: '8px 8px 0px 0px #000',
+                                            background: link.hoverBg,
+                                        }}
+                                        whileTap={{ scale: 0.95 }}
+                                        transition={{
+                                            default: { type: 'spring', stiffness: 300, damping: 20 },
+                                            background: { duration: 0.22, ease: 'easeOut' },
+                                            boxShadow: { duration: 0.18, ease: 'easeOut' },
+                                        }}
+                                    >
+                                        <link.Icon />
+                                        <span>{link.label}</span>
+                                    </motion.a>
+                                </Magnetic>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* Bottom Note */}
+                <div className="contact-bottom-note">
+                    <div className="tape-black"></div>
+                    <p>♡ Feel free to reach out for collaborations or just to say hi!</p>
                 </div>
             </div>
         </motion.section>
-        <footer>
-            <p>&copy; 2026 Arshath Ahamed.</p>
+
+        <footer style={{ textAlign: 'center', padding: '2rem', background: 'var(--card-bg)', borderTop: '2px solid #111' }}>
+            <p style={{ margin: 0, fontFamily: 'var(--font-ui)', fontWeight: 'bold' }}>&copy; 2026 Arshath Ahamed.</p>
         </footer>
     </>
 );
-
-/* ─── Root ───────────────────────────────────────────────── */
-const Contact = () => {
-    const [isMobile, setIsMobile] = useState(() => {
-        if (typeof window === 'undefined') return false;
-        return window.matchMedia('(max-width: 640px)').matches;
-    });
-    useEffect(() => {
-        const mq = window.matchMedia('(max-width: 640px)');
-        const onChange = (e) => setIsMobile(e.matches);
-        mq.addEventListener('change', onChange);
-        return () => mq.removeEventListener('change', onChange);
-    }, []);
-    return isMobile ? <MobileContact /> : <DesktopContact />;
-};
 
 export default Contact;
