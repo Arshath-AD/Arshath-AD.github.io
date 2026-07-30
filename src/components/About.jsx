@@ -150,7 +150,7 @@ const DesktopAbout = () => (
                             <h3>Student</h3>
                         </div>
                         <p>
-                            I'm Arshath, a second-year undergraduate in B.Sc IT & DS.
+                            I'm Arshath, a final year undergraduate in B.Sc IT & DS.
                             I enjoy turning ideas into real-world applications, working with technologies like Python, Java, and modern web tools to build meaningful tech solutions.
                         </p>
                     </div>

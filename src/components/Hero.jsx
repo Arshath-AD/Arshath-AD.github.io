@@ -106,6 +106,7 @@ const AvatarPicture = ({ className, width, height, style, ...rest }) => (
         <img
             src="/assets/images/avatar-720.png"
             alt="Arshath Ahamed – CS student and developer"
+            title="Arshath Ahamed – Portfolio Photo"
             className={className}
             width={width}
             height={height}
