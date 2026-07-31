@@ -1234,16 +1234,28 @@ body.project-modal-open .projects>.comic-page-grid {
     user-select: none;
 }
 
+/* ── Sticky avatar is position:fixed so it escapes parent filters — blur it directly ── */
+body.project-modal-open .hero-avatar-wrapper {
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    transition: filter 0.25s ease;
+    pointer-events: none;
+    user-select: none;
+}
+
 .modal-scroll-wrapper {
     position: fixed;
     inset: 0;
     z-index: 1000;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    padding: 0 1.5rem;
+    align-items: center;       /* vertically center the modal card */
+    padding: 2rem 1.5rem;
     overflow-y: auto;
     pointer-events: none;
+    /* subtle scrollbar — only shows if card somehow exceeds viewport */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.15) transparent;
 }
 
 /* ── Dark floating modal (new design) ───────────── */
@@ -1254,7 +1266,7 @@ body.project-modal-open .projects>.comic-page-grid {
     align-items: center;
     width: 100%;
     max-width: 720px;
-    margin: 3rem auto 6rem auto; /* Forces breathing room at top and bottom when scrolling */
+    margin: auto;              /* replaced fixed margins — centering is handled by the flex wrapper */
     pointer-events: auto;
 }
 
@@ -1263,6 +1275,9 @@ body.project-modal-open .projects>.comic-page-grid {
     width: 100%;
     background: #0d0d0d;
     border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    max-height: 88vh;
     overflow: hidden;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
 }
@@ -1325,16 +1340,38 @@ body.project-modal-open .projects>.comic-page-grid {
     letter-spacing: 0.5px;
 }
 
-/* Details section inside the dark card */
+/* Outer details container — flex column, NO overflow (button stays pinned) */
 .modal-details-dark {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 1.4rem 1.8rem 1.6rem;
+    padding: 0;                /* padding moved to inner regions */
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;          /* clips border-radius; inner div scrolls */
 }
 
-/* Top row: chips left, features right */
+/* Inner scroll region — only the content above the button scrolls */
+.modal-details-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 1.4rem 1.8rem 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.18) transparent;
+}
+.modal-details-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+.modal-details-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+.modal-details-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.18);
+    border-radius: 4px;
+}
+
+/* Two-column row: chips+desc left, features right */
 .modal-details-top {
     display: flex;
     gap: 1.5rem;
@@ -1376,7 +1413,7 @@ body.project-modal-open .projects>.comic-page-grid {
     margin: 0;
 }
 
-/* Features 2-col grid */
+/* Features — 2-column grid */
 .modal-details-dark .project-features {
     list-style: none;
     padding: 0;
@@ -1401,13 +1438,14 @@ body.project-modal-open .projects>.comic-page-grid {
     margin-top: 0.15rem;
 }
 
-/* View Source button */
+/* View on GitHub button — pinned below scroll area, always visible */
 .modal-details-dark .project-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    width: 100%;
+    width: calc(100% - 3.6rem); /* full width minus side padding */
+    margin: 0 1.8rem 1.4rem;    /* matches inner scroll padding */
     padding: 0.75rem 1rem;
     background: #fff;
     color: #111;
@@ -1418,8 +1456,9 @@ body.project-modal-open .projects>.comic-page-grid {
     letter-spacing: 1px;
     border-radius: 8px;
     text-decoration: none;
-    box-shadow: none; /* override base .btn shadow */
+    box-shadow: none;
     transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
 .modal-details-dark .project-btn:hover {
@@ -1508,15 +1547,16 @@ body.project-modal-open .projects>.comic-page-grid {
     overflow: hidden;
 }
 
-/* 16:9 Slideshow Container */
+/* Slideshow — strict 16:9, full modal width */
 .modal-slideshow {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 9;      /* perfect 16:9, height derived from modal width */
+    height: auto;
+    flex-shrink: 0;            /* never shrink — 16:9 is sacred */
     overflow: hidden;
     background: #111;
     border-bottom: 3px solid #111;
-    flex-shrink: 0;
 }
 
 .modal-slideshow img {
@@ -1524,7 +1564,8 @@ body.project-modal-open .projects>.comic-page-grid {
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover;         /* fill + center-crop, never stretch */
+    object-position: center;
 }
 
 /* Slide Arrow Buttons */
@@ -1571,6 +1612,44 @@ body.project-modal-open .projects>.comic-page-grid {
     display: flex;
     gap: 7px;
     z-index: 10;
+}
+
+/* Compact GitHub link — overlaid on carousel just above the slide dots */
+.slideshow-github-btn {
+    position: absolute;
+    bottom: 34px;              /* sits above the 10px-bottom dots + gap */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.85rem;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.slideshow-github-btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #fff;
+}
+
+.slideshow-github-btn svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
 }
 
 .slide-dot {
@@ -1800,6 +1879,26 @@ footer {
 
     .nav-links {
         gap: 1.2rem;
+        padding-right: 0; /* avatar is on a higher z-index layer — no padding reservation needed at tablet */
+    }
+
+    /* Hide slide dots and adjust button on tablet as well */
+    .slide-dots {
+        display: none !important;
+    }
+
+    .slideshow-github-btn {
+        bottom: 14px;
+    }
+
+    /* Hide the grid card halftone dots on mobile/tablet since there's no hover to clear them */
+    .halftone-overlay {
+        display: none !important;
+    }
+
+    /* ── Modal tablet: narrow the modal, 16:9 still applies ── */
+    .modal-float-wrapper {
+        max-width: 94vw;
     }
 }
 
@@ -1816,6 +1915,37 @@ footer {
     /* ── hide desktop hero on mobile ── */
     .hero {
         display: none !important;
+    }
+
+    /* ── Modal: mobile — column layout, 16:9 carousel on top ── */
+    .comic-modal-dark {
+        flex-direction: column; /* base is already column; explicit for safety */
+    }
+
+    .modal-slideshow {
+        flex: none;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        aspect-ratio: 16 / 9;
+        border-right: none;
+        border-bottom: 3px solid #111;
+    }
+
+    .modal-scroll-wrapper {
+        align-items: flex-start;/* allow top-align on very small screens */
+        padding: 1rem 0.75rem;
+    }
+
+    /* Hide dots on mobile to save space */
+    .slide-dots {
+        display: none !important;
+    }
+
+    /* Move GitHub button down since dots are gone */
+    .slideshow-github-btn {
+        bottom: 14px;
     }
 
     /* ══════════════════════════════════

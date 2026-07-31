@@ -413,6 +413,7 @@ const DesktopHero = () => {
                 {/* Placeholder preserves layout space when avatar goes sticky, preventing CLS */}
                 {isScrolled && <div style={{ width: '100%', maxWidth: '24rem', aspectRatio: '1/1' }} aria-hidden="true" />}
                 <motion.div
+                    className="hero-avatar-wrapper"
                     layout
                     style={{
                         position: isScrolled ? 'fixed' : 'relative',

@@ -95,7 +95,7 @@ const CheckIcon = () => (
 );
 
 /* ─── Reusable Image Slideshow ─────────────────────────────── */
-const ImageSlideshow = ({ images, size = 'lg' }) => {
+const ImageSlideshow = ({ images, size = 'lg', url }) => {
     const [idx, setIdx] = useState(0);
     const prev = (e) => { e.stopPropagation(); setIdx(i => (i - 1 + images.length) % images.length); };
     const next = (e) => { e.stopPropagation(); setIdx(i => (i + 1) % images.length); };
@@ -113,6 +113,20 @@ const ImageSlideshow = ({ images, size = 'lg' }) => {
                     style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
             </AnimatePresence>
+
+            {/* Compact GitHub link — sits above the dots */}
+            {url && (
+                <a
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="slideshow-github-btn"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <GitHubIcon /> View on GitHub
+                </a>
+            )}
+
             {images.length > 1 && (
                 <>
                     <button className="slide-btn slide-btn-prev" onClick={prev} aria-label="Previous">&#8592;</button>
@@ -185,7 +199,7 @@ const DesktopProjects = () => {
                             {proj.hook}
                         </motion.div>
 
-                        <motion.h3 layoutId={`title-${proj.id}`} className="panel-title">{proj.title}</motion.h3>
+                        <h3 className="panel-title">{proj.title}</h3>
                         <span className="click-indicator">READ ISSUE</span>
                     </motion.div>
                 ))}
@@ -212,42 +226,33 @@ const DesktopProjects = () => {
                                     layoutId={`panel-container-${activeProject.id}`}
                                     className="comic-modal-dark"
                                 >
-                                    {/* 16:9 Slideshow fills the dark card */}
-                                    <ImageSlideshow images={activeProject.images} />
+                                    {/* 16:9 Slideshow with compact GitHub button overlaid above dots */}
+                                    <ImageSlideshow images={activeProject.images} url={activeProject.url} />
 
                                     {/* Details below slideshow, inside dark card */}
                                     <div className="modal-details-dark">
-                                        <div className="modal-details-top">
-                                            {/* Left: chips + description */}
-                                            <div className="modal-details-left">
-                                                <div className="tech-stack">
-                                                    {activeProject.stack.map(tech => <span key={tech} className="tech-chip">{tech}</span>)}
+                                        {/* Inner scroll region — only this part scrolls */}
+                                        <div className="modal-details-scroll">
+                                            <div className="modal-details-top">
+                                                {/* Left: chips + description */}
+                                                <div className="modal-details-left">
+                                                    <div className="tech-stack">
+                                                        {activeProject.stack.map(tech => <span key={tech} className="tech-chip">{tech}</span>)}
+                                                    </div>
+                                                    <p className="project-desc">{activeProject.desc}</p>
                                                 </div>
-                                                <p className="project-desc">{activeProject.desc}</p>
-                                            </div>
-                                            {/* Right: features grid */}
-                                            <div className="modal-details-right">
-                                                <ul className="project-features">
-                                                    {activeProject.features.map(f => (
-                                                        <li key={f}><CheckIcon />{f}</li>
-                                                    ))}
-                                                </ul>
+                                                {/* Right: features grid */}
+                                                <div className="modal-details-right">
+                                                    <ul className="project-features">
+                                                        {activeProject.features.map(f => (
+                                                            <li key={f}><CheckIcon />{f}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                        {/* Full-width repo button */}
-                                        <a href={activeProject.url} target="_blank" rel="noreferrer" className="btn project-btn">
-                                            <GitHubIcon /> View on GitHub
-                                        </a>
                                     </div>
                                 </motion.div>
-
-                                {/* Floating title badge below the card */}
-                                <div className="modal-title-badge">
-                                    <motion.span layoutId={`title-${activeProject.id}`} className="modal-badge-title">
-                                        {activeProject.title}
-                                    </motion.span>
-                                    <span className="modal-badge-status">{activeProject.status}</span>
-                                </div>
 
                             </div>
                         </div>
