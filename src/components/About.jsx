@@ -21,7 +21,7 @@ const AthleticsIcon = () => (
 const mobileCards = [
     {
         Icon: CodeIcon,
-        text: "I'm Arshath, a second-year undergraduate in B.Sc IT & DS. I enjoy turning ideas into real-world applications using Python, Java, and modern web tools.",
+        text: "I'm Arshath, a final year undergraduate in B.Sc IT & DS. I enjoy turning ideas into real-world applications, working with technologies like Python, Java, and modern web tools to build meaningful tech solutions.",
         color: 'var(--primary-color)',
         from: -60,
         rotate: -2,
